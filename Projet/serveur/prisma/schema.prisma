@@ -24,6 +24,13 @@ model Role {
   user User[]
 }
 
+model Role {
+  id Int @id @default(autoincrement())
+  label String
+
+  user User[]
+}
+
 model User {
   id Int @id @default(autoincrement())
   lastName String
