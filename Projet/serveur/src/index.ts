@@ -7,6 +7,7 @@ import UserRouter from "./routes/get/user";
 import WorkerRouter from "./routes/get/worker";
 import LoginRoute from "./routes/post/login";
 import RegisterRoute from "./routes/post/register";
+import SiteRoutePost from "./routes/post/site";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use("/site", SiteRouter);
 // POST
 app.use("/login", LoginRoute);
 app.use("/register", RegisterRoute);
+app.use("/site", SiteRoutePost);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
