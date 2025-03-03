@@ -31,10 +31,10 @@ app.use("/user", GetUserRouter);
 app.use("/site", GetSiteRouter);
 
 // ROUTES DELETE
-app.use("/worker", DeleteWorkerRouter)
-app.use("/skill", DeleteSkillRouter)
-app.use("/user", DeleteUserRouter)
-app.use("/site", DeleteSiteRouter)
+app.use("/worker", DeleteWorkerRouter);
+app.use("/skill", DeleteSkillRouter);
+app.use("/user", DeleteUserRouter);
+app.use("/site", DeleteSiteRouter);
 
 // ROUTES POST
 app.use('/login', PostLoginRouter)
