@@ -5,18 +5,19 @@
   "scripts": {
     "build": "npx tsc",
     "dev": "nodemon ./src/index.ts",
-    "migrate": "npx prisma migrate dev --name init",
-    "studio": "npx prisma studio"
+    "migrate": "npx prisma migrate dev --name init && npx prisma studio"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.4.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.8",
     "concurrently": "^9.1.2",

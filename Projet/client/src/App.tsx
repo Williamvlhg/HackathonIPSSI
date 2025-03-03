@@ -1,16 +1,24 @@
-import './App.css'
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { routeTree } from "./routeTree.gen";
+import "./App.css";
+const url = 'http://localhost:8080/ouvriers';
+const router = createRouter({ routeTree });
 
-function App() {
+async function test() {
+  const res = await fetch(url)
+  const data = await res.json()
+  console.log(data)
   
-
-  return (
-    <>
-      <div>
-        
-      </div>
-    </>
-
-  )
+  return null;
 }
 
-export default App
+function App() {
+  test()
+  return (
+    <div className="App">
+      <RouterProvider router={router} />
+    </div>
+  );
+}
+
+export default App;
