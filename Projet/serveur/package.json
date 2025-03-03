@@ -5,8 +5,7 @@
   "scripts": {
     "build": "npx tsc",
     "dev": "nodemon ./src/index.ts",
-    "migrate": "npx prisma migrate dev --name init",
-    "studio": "npx prisma studio"
+    "migrate": "npx prisma migrate dev --name init && npx prisma studio"
   },
   "author": "",
   "license": "ISC",

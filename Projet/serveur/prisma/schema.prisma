@@ -7,6 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Skills {
+  id Int @id @default(autoincrement())
+  label String
+  worker Worker @relation(fields: [workerId], references: [id])
+  workerId Int
+
+  site Site @relation(fields: [siteId], references: [id])
+  siteId Int
+}
+
 model User {
   id Int @id @default(autoincrement())
+  lastName String
+  firstName String
+  email String @unique
+  passsword String
+  role String @default("USER")
+  worker Worker?
+}
+
+model Site {
+  id Int @id @default(autoincrement())
+  name String
+  address String
+
+  startDate DateTime
+  endDate DateTime
+  skills Skills[]
+  skillId Int
+}
+
+model Worker {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [id], references: [id])
+  skills Skills[]
+
+  skillId Int
 }
