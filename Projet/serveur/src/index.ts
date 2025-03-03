@@ -1,13 +1,13 @@
 import dotenv from "dotenv";
 import { Request, Response } from "express";
 import { app } from "./lib/express";
-import SiteRouter from "./routes/get/site";
+import WorkerRouter from "./routes/get/worker";
 import SkillRouter from "./routes/get/skill";
 import UserRouter from "./routes/get/user";
-import WorkerRouter from "./routes/get/worker";
-import LoginRoute from "./routes/post/login";
-import RegisterRoute from "./routes/post/register";
-import SiteRoutePost from "./routes/post/site";
+import SiteRouter from "./routes/get/site";
+import PostLoginRoute from "./routes/post/login";
+import PostRegisterRoute from "./routes/post/register";
+import PostSiteRoute from "./routes/post/site";
 
 dotenv.config();
 
@@ -24,9 +24,9 @@ app.use("/user", UserRouter);
 app.use("/site", SiteRouter);
 
 // POST
-app.use("/login", LoginRoute);
-app.use("/register", RegisterRoute);
-app.use("/site", SiteRoutePost);
+app.use("/login", PostLoginRoute);
+app.use("/register", PostRegisterRoute);
+app.use("/site", PostSiteRoute);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
