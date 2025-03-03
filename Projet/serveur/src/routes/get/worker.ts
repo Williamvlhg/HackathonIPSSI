@@ -42,4 +42,25 @@ router.get("/:id", async (req: Request, res: Response) => {
     }
 })
 
+router.get("/:id", async (req: Request, res: Response) => {
+    try {
+        res.status(200).json({
+            success: true,
+            data: await prisma.worker.findUnique({
+                where: {
+                    id: Number(req.params.id)
+                },
+                include: {
+                    skills: true
+                }
+            })
+        })
+    } catch (e: any) {
+        res.status(500).json({
+            success: false,
+            message: e.message
+        })
+    }
+})
+
 export default router;
