@@ -5,5 +5,5 @@ export const registerSchema = z.object({
   lastName: z.string(),
   email: z.string(),
   password: z.string(),
-  role: z.string(),
+  roleId: z.number(),
 });
