@@ -1,7 +1,10 @@
 import dotenv from "dotenv";
 import { Request, Response } from "express";
 import { app } from "./lib/express";
-import OuvrierRouter from "./routes/get/worker";
+import SiteRouter from "./routes/get/site";
+import SkillRouter from "./routes/get/skill";
+import UserRouter from "./routes/get/user";
+import WorkerRouter from "./routes/get/worker";
 import LoginRoute from "./routes/post/login";
 import RegisterRoute from "./routes/post/register";
 
@@ -14,7 +17,10 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // GET
-app.use("/ouvriers", OuvrierRouter);
+app.use("/worker", WorkerRouter);
+app.use("/skill", SkillRouter);
+app.use("/user", UserRouter);
+app.use("/site", SiteRouter);
 
 // POST
 app.use("/login", LoginRoute);

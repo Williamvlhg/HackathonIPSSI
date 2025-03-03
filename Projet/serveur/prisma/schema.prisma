@@ -10,11 +10,18 @@ datasource db {
 model Skills {
   id Int @id @default(autoincrement())
   label String
-  worker Worker @relation(fields: [workerId], references: [id])
-  workerId Int
+  worker Worker? @relation(fields: [workerId], references: [id])
+  workerId Int?
 
-  site Site @relation(fields: [siteId], references: [id])
-  siteId Int
+  site Site? @relation(fields: [siteId], references: [id])
+  siteId Int?
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  label String
+
+  user User[]
 }
 
 model User {
@@ -23,7 +30,9 @@ model User {
   firstName String
   email String @unique
   passsword String
-  role String @default("USER")
+  role Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
   worker Worker?
 }
 
