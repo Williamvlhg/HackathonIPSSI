@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import  Layout from './components/layout';
-import  Home  from './pages/Home';
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { routeTree } from "./routeTree.gen";
+import "./App.css";
 const url = 'http://localhost:8080/ouvriers';
+const router = createRouter({ routeTree });
 
 async function test() {
   const res = await fetch(url)
@@ -10,17 +11,14 @@ async function test() {
   
   return null;
 }
-const App: React.FC = () => (
-  <>
-    <Layout>
-      <Home />
-    </Layout>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
-    
-  </>
-);
-export default App
+
+function App() {
+  test()
+  return (
+    <div className="App">
+      <RouterProvider router={router} />
+    </div>
+  );
+}
+
+export default App;
