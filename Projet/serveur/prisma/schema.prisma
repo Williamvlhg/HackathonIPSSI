@@ -49,7 +49,7 @@ model Site {
 
 model Worker {
   id Int @id @default(autoincrement())
-  user User @relation(fields: [id], references: [id])
+  user User @relation(fields: [id], references: [id], onDelete: Cascade)
   skills Skills[]
 
   skillId Int
