@@ -13,7 +13,9 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as LoginImport } from './routes/login'
+import { Route as EmployesImport } from './routes/employes'
 import { Route as ChantierImport } from './routes/chantier'
+import { Route as CalendarImport } from './routes/calendar'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
@@ -30,9 +32,21 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const EmployesRoute = EmployesImport.update({
+  id: '/employes',
+  path: '/employes',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ChantierRoute = ChantierImport.update({
   id: '/chantier',
   path: '/chantier',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CalendarRoute = CalendarImport.update({
+  id: '/calendar',
+  path: '/calendar',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,11 +67,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarImport
+      parentRoute: typeof rootRoute
+    }
     '/chantier': {
       id: '/chantier'
       path: '/chantier'
       fullPath: '/chantier'
       preLoaderRoute: typeof ChantierImport
+      parentRoute: typeof rootRoute
+    }
+    '/employes': {
+      id: '/employes'
+      path: '/employes'
+      fullPath: '/employes'
+      preLoaderRoute: typeof EmployesImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -81,14 +109,18 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/chantier': typeof ChantierRoute
+  '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/chantier': typeof ChantierRoute
+  '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
 }
@@ -96,30 +128,49 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/chantier': typeof ChantierRoute
+  '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chantier' | '/login' | '/profile'
+  fullPaths:
+    | '/'
+    | '/calendar'
+    | '/chantier'
+    | '/employes'
+    | '/login'
+    | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chantier' | '/login' | '/profile'
-  id: '__root__' | '/' | '/chantier' | '/login' | '/profile'
+  to: '/' | '/calendar' | '/chantier' | '/employes' | '/login' | '/profile'
+  id:
+    | '__root__'
+    | '/'
+    | '/calendar'
+    | '/chantier'
+    | '/employes'
+    | '/login'
+    | '/profile'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CalendarRoute: typeof CalendarRoute
   ChantierRoute: typeof ChantierRoute
+  EmployesRoute: typeof EmployesRoute
   LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CalendarRoute: CalendarRoute,
   ChantierRoute: ChantierRoute,
+  EmployesRoute: EmployesRoute,
   LoginRoute: LoginRoute,
   ProfileRoute: ProfileRoute,
 }
@@ -135,7 +186,9 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/calendar",
         "/chantier",
+        "/employes",
         "/login",
         "/profile"
       ]
@@ -143,8 +196,14 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
+    "/calendar": {
+      "filePath": "calendar.tsx"
+    },
     "/chantier": {
       "filePath": "chantier.tsx"
+    },
+    "/employes": {
+      "filePath": "employes.tsx"
     },
     "/login": {
       "filePath": "login.tsx"
