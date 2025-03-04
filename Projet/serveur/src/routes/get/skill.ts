@@ -8,7 +8,7 @@ router.get("/all", async (req: Request, res: Response) => {
     try {
         res.status(200).json({
             success: true,
-            data: await prisma.skills.findMany()
+            data: await prisma.skill.findMany()
         })
     } catch (e: any) {
         res.status(500).json({
@@ -20,7 +20,7 @@ router.get("/all", async (req: Request, res: Response) => {
 
 router.get("/:id", async (req: Request, res: Response) => {
     try {
-        const skill = await prisma.skills.findUnique({
+        const skill = await prisma.skill.findUnique({
             where: {
                 id: Number(req.params.id)
             }
