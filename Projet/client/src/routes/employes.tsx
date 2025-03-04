@@ -31,33 +31,33 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="flex space-x-5 mt-5 w-full">
-        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
+      <div className='flex space-x-5 mt-5 w-full'>
+        <Card className='p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100'>
           <CardHeader>
             <CardTitle>
-              <FolderSync size={50}/>
+              <FolderSync size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-3xl">5</CardContent>
-          <CardDescription className="px-6">Nombres total d'employés</CardDescription>
+          <CardContent className='text-3xl'>{data?.data.length}</CardContent>
+          <CardDescription className='px-6'>Nombres total d'employés</CardDescription>
         </Card>
-        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
+        <Card className='p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100'>
           <CardHeader>
             <CardTitle>
               <PersonStanding size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-3xl">37</CardContent>
-          <CardDescription className="px-6">Nombre d'employés affectés</CardDescription>
+          <CardContent className='text-3xl'>37</CardContent>
+          <CardDescription className='px-6'>Nombre d'employés affectés</CardDescription>
         </Card>
-        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
+        <Card className='p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100'>
           <CardHeader>
             <CardTitle>
-              <FolderClosed size={50}/>
+              <FolderClosed size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-3xl">67</CardContent>
-          <CardDescription className="px-6">Nombre d'employés disponibles</CardDescription>
+          <CardContent className='text-3xl'>67</CardContent>
+          <CardDescription className='px-6'>Nombre d'employés disponibles</CardDescription>
         </Card>
       </div>
 
