@@ -7,7 +7,12 @@ const router = Router();
 router.get("/all", async (req: Request, res: Response) => {
     try {
         const user = await prisma.user.findMany({
-            include: {
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                roleId: true,
                 role: true
             }
         })
@@ -36,7 +41,12 @@ router.get("/:id", async (req: Request, res: Response) => {
                 where: {
                     id: Number(req.params.id)
                 },
-                include: {
+                select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                    roleId: true,
                     role: true
                 }
             })

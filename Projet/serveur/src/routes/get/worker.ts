@@ -10,7 +10,16 @@ router.get("/all", async (req: Request, res: Response) => {
             success: true,
             data: await prisma.worker.findMany({
                 include: {
-                    skills: true
+                    skills: true,
+                    user: {
+                        select: {
+                            id: true,
+                            lastName: true,
+                            firstName: true,
+                            email: true,
+                            role: true
+                        }
+                    }
                 }
             })
         })
@@ -31,11 +40,14 @@ router.get("/:id", async (req: Request, res: Response) => {
             include: {
                 skills: true,
                 user: {
-                    include: {
+                    select: {
+                        id: true,
+                        lastName: true,
+                        firstName: true,
+                        email: true,
                         role: true
                     }
                 }
-
             }
         })
 
