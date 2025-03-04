@@ -46,37 +46,37 @@ const data = [
 function RouteComponent() {
   return (
     <>
-      <div className="flex justify-evenly mt-10">
-        <Card className="w-60 ">
+      <div className="flex space-x-5 mt-5 w-full">
+        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
           <CardHeader>
             <CardTitle>
-              <FolderSync size={30}/>
+              <FolderSync size={50}/>
             </CardTitle>
           </CardHeader>
           <CardContent className="text-3xl">5</CardContent>
-          <CardDescription>Nombre de chantier (en cours)</CardDescription>
+          <CardDescription className="px-6">Nombres total d'employés</CardDescription>
         </Card>
-        <Card className="w-60">
+        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
           <CardHeader>
             <CardTitle>
-              <PersonStanding size={30} />
+              <PersonStanding size={50} />
             </CardTitle>
           </CardHeader>
           <CardContent className="text-3xl">37</CardContent>
-          <CardDescription>Nombre d'employés affectés</CardDescription>
+          <CardDescription className="px-6">Nombre d'employés affectés</CardDescription>
         </Card>
-        <Card className="w-60">
+        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
           <CardHeader>
             <CardTitle>
-              <FolderClosed size={30}/>
+              <FolderClosed size={50}/>
             </CardTitle>
           </CardHeader>
           <CardContent className="text-3xl">67</CardContent>
-          <CardDescription>Nombre totale de chantier</CardDescription>
+          <CardDescription className="px-6">Nombre d'employés disponibles</CardDescription>
         </Card>
       </div>
       <div className="flex gap-2 mt-20 align-middle" >
-        <span> Ajouter un chantier </span>
+        <span> Ajouter un employé </span>
         <CirclePlus onClick={() => console.log("test")}/> 
       </div>
 
