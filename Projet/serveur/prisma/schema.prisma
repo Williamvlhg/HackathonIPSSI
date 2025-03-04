@@ -27,7 +27,8 @@ model User {
   roleId Int
 
   // Worker peut être null au cas ou si le user à le role RH par exemple
-  worker Worker?
+  worker   Worker? @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId Int?
 }
 
 // Worker est un user qui travail dans un chantier
@@ -35,8 +36,7 @@ model Worker {
   id Int @id @default(autoincrement())
 
   // relation one to one => UN user est peut être UN worker
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @unique // @unique veut dire relation one to one
+  user User[]
 
   /**
    * Un worker à un ou plusieurs skills
@@ -52,16 +52,11 @@ model Skill {
   id    Int    @id @default(autoincrement())
   label String
 
-  /**
-   * Plusieurs skills peuvent être associés à un worker
-   * relation many to one
-   */
+  // Relation many-to-one avec Worker : un Skill peut être associé à un Worker
   worker   Worker? @relation(fields: [workerId], references: [id])
   workerId Int?
 
-  // UN ou PLUSIEURS skills peuvent être associés à un site
-  site   Site? @relation(fields: [siteId], references: [id])
-  siteId Int?
+  skills Site[] @relation("WorkerSkills")
 }
 
 model Site {
@@ -75,6 +70,6 @@ model Site {
   // plusieurs workers sur un site
   workers Worker[] @relation("WorkerSites")
 
-  // un site peut posséder plusieurs skills
-  skills Skill[]
+  // plusieurs skills
+  skills Skill[] @relation("WorkerSkills")
 }

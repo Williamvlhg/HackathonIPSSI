@@ -1,49 +1,34 @@
-import { createFileRoute } from "@tanstack/react-router";
+import AddEmploye from '@/components/employe/add-employe'
+import DeleteEmploye from '@/components/employe/delete-employe'
+import UpdateEmploye from '@/components/employe/update-employe'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { User } from '@/types/user'
+import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
 
-import { FolderSync } from 'lucide-react';
-import { FolderClosed } from "lucide-react";
-import { PersonStanding } from 'lucide-react';
-import { CirclePlus } from 'lucide-react';
+import { FolderClosed, FolderSync, PersonStanding } from 'lucide-react'
 
-
-export const Route = createFileRoute("/employes")({
+export const Route = createFileRoute('/employes')({
   component: RouteComponent,
-});
-
-
-const data = [
-  {
-    id: 1,
-    name: "Chantier 1",
-    status: "En cours",
-    employees: 25,
-    totalTasks: 50
-  },
-  {
-    id: 2,
-    name: "Chantier 2",
-    status: "En attente",
-    employees: 15,
-    totalTasks: 30
-  },
-  {
-    id: 3,
-    name: "Chantier 3",
-    status: "Terminé",
-    employees: 30,
-    totalTasks: 45
-  }
-];
+})
 
 function RouteComponent() {
+  const { data, isLoading } = useQuery<{ data: Array<User> }>({
+    queryKey: ['employes'],
+    queryFn: async () => {
+      const res = await fetch('http://localhost:8080/user/all')
+      return await res.json()
+    },
+  })
+
   return (
     <>
       <div className="flex space-x-5 mt-5 w-full">
@@ -75,11 +60,43 @@ function RouteComponent() {
           <CardDescription className="px-6">Nombre d'employés disponibles</CardDescription>
         </Card>
       </div>
-      <div className="flex gap-2 mt-20 align-middle" >
-        <span> Ajouter un employé </span>
-        <CirclePlus onClick={() => console.log("test")}/> 
-      </div>
 
+      <section className='flex gap-2 my-8 align-middle'>
+        <AddEmploye />
+      </section>
+
+      {isLoading ? (
+        <p>chargement</p>
+      ) : (
+        <section>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>#</TableHead>
+                <TableHead>Prénom</TableHead>
+                <TableHead>Nom</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Role</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.data.map((user, key) => (
+                <TableRow key={key}>
+                  <TableCell className='font-medium'>{user.id}</TableCell>
+                  <TableCell>{user.firstName}</TableCell>
+                  <TableCell>{user.lastName}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.role.label}</TableCell>
+                  <TableCell className='space-x-2'>
+                    <UpdateEmploye currentUser={user} />
+                    <DeleteEmploye userId={user.id} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </section>
+      )}
     </>
-  );
+  )
 }
