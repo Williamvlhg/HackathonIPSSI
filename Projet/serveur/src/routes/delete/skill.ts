@@ -7,7 +7,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
     try {
         res.status(200).json({
             success: true,
-            data: await prisma.skills.delete({
+            data: await prisma.skill.delete({
                 where: {
                     id: Number(req.params.id)
                 }
