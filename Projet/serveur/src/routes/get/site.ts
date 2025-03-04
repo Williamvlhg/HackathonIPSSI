@@ -16,23 +16,6 @@ router.get("/all", async (req: Request, res: Response) => {
               label: true,
             },
           },
-          workers: {
-            select: {
-              user: {
-                select: {
-                  firstName: true,
-                  lastName: true,
-                  email: true,
-                  role: {
-                    select: {
-                      id: true,
-                      label: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
         },
       }),
     });
