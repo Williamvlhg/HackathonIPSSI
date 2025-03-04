@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { FC, JSX } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button, buttonVariants } from '../ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
@@ -27,7 +28,7 @@ const AddEmploye: FC = (): JSX.Element => {
     },
   })
 
-  const { mutate, data: mutationData } = useMutation<
+  const { mutate } = useMutation<
     { success: boolean; message: string },
     Error,
     z.infer<typeof formSchema>
@@ -49,7 +50,16 @@ const AddEmploye: FC = (): JSX.Element => {
       })
 
       form.reset()
+
       return await res.json()
+    },
+
+    onError: () => {
+      toast('Une erreur est survenue')
+    },
+
+    onSuccess: () => {
+      toast('Utilisateur créé')
     },
   })
 
@@ -169,17 +179,6 @@ const AddEmploye: FC = (): JSX.Element => {
               </Button>
             </form>
           </Form>
-
-          {mutationData &&
-            (mutationData.success === false ? (
-              <div className='bg-red-200 rounded-md p-2'>
-                <p className='text-red-600 text-center'>{mutationData.message}</p>
-              </div>
-            ) : (
-              <div className='bg-green-200 rounded-md p-2'>
-                <p className='text-green-600 text-center'>{mutationData?.message}</p>
-              </div>
-            ))}
         </DialogHeader>
       </DialogContent>
     </Dialog>

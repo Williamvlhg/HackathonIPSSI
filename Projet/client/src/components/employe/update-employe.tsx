@@ -1,7 +1,7 @@
 import { Role } from '@/types/role'
 import { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { FC, JSX } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { toast } from 'sonner'
 
 interface IUpdateEmployeProps {
   currentUser: User
@@ -31,6 +32,28 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
     },
   })
 
+  const { mutate } = useMutation({
+    mutationKey: ['updateEmploye'],
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      const res = await fetch(`http://localhost:8080/user/${currentUser.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          roleId: Number(values.roleId),
+        }),
+      })
+
+      toast('Utilisateur modifié')
+
+      return await res.json()
+    },
+  })
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,7 +65,7 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    mutate(values)
   }
 
   return (
