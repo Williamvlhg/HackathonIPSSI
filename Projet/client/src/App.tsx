@@ -13,9 +13,9 @@ function App() {
   return (
     <SidebarProvider>
     <div className="flex h-screen">
-      <QueryClientProvider client={queryClient}>
         <AppSidebar />
-        <div className="flex-1 p-4 overflow-auto">
+        <div>
+        <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
         </div>
