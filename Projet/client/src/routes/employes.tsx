@@ -1,0 +1,85 @@
+import { createFileRoute } from "@tanstack/react-router";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+import { FolderSync } from 'lucide-react';
+import { FolderClosed } from "lucide-react";
+import { PersonStanding } from 'lucide-react';
+import { CirclePlus } from 'lucide-react';
+
+
+export const Route = createFileRoute("/employes")({
+  component: RouteComponent,
+});
+
+
+const data = [
+  {
+    id: 1,
+    name: "Chantier 1",
+    status: "En cours",
+    employees: 25,
+    totalTasks: 50
+  },
+  {
+    id: 2,
+    name: "Chantier 2",
+    status: "En attente",
+    employees: 15,
+    totalTasks: 30
+  },
+  {
+    id: 3,
+    name: "Chantier 3",
+    status: "Terminé",
+    employees: 30,
+    totalTasks: 45
+  }
+];
+
+function RouteComponent() {
+  return (
+    <>
+      <div className="flex justify-evenly mt-10">
+        <Card className="w-60 ">
+          <CardHeader>
+            <CardTitle>
+              <FolderSync size={30}/>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-3xl">5</CardContent>
+          <CardDescription>Nombre de chantier (en cours)</CardDescription>
+        </Card>
+        <Card className="w-60">
+          <CardHeader>
+            <CardTitle>
+              <PersonStanding size={30} />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-3xl">37</CardContent>
+          <CardDescription>Nombre d'employés affectés</CardDescription>
+        </Card>
+        <Card className="w-60">
+          <CardHeader>
+            <CardTitle>
+              <FolderClosed size={30}/>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-3xl">67</CardContent>
+          <CardDescription>Nombre totale de chantier</CardDescription>
+        </Card>
+      </div>
+      <div className="flex gap-2 mt-20 align-middle" >
+        <span> Ajouter un chantier </span>
+        <CirclePlus onClick={() => console.log("test")}/> 
+      </div>
+
+    </>
+  );
+}
