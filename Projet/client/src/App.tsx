@@ -1,22 +1,18 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
 import "./App.css";
-const url = 'http://localhost:8080/ouvriers';
+import { routeTree } from "./routeTree.gen";
+
 const router = createRouter({ routeTree });
 
-async function test() {
-  const res = await fetch(url)
-  const data = await res.json()
-  console.log(data)
-  
-  return null;
-}
-
 function App() {
-  test()
+  const queryClient = new QueryClient();
+
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </div>
   );
 }
