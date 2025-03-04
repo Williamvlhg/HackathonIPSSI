@@ -9,6 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "declaration": true,
+    "strictNullChecks": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
     "noUnusedLocals": false,
