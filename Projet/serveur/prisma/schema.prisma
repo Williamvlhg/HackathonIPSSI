@@ -52,16 +52,11 @@ model Skill {
   id    Int    @id @default(autoincrement())
   label String
 
-  /**
-   * Plusieurs skills peuvent être associés à un worker
-   * relation many to one
-   */
+  // Relation many-to-one avec Worker : un Skill peut être associé à un Worker
   worker   Worker? @relation(fields: [workerId], references: [id])
   workerId Int?
 
-  // UN ou PLUSIEURS skills peuvent être associés à un site
-  site   Site? @relation(fields: [siteId], references: [id])
-  siteId Int?
+  skills Site[] @relation("WorkerSkills")
 }
 
 model Site {
@@ -75,6 +70,6 @@ model Site {
   // plusieurs workers sur un site
   workers Worker[] @relation("WorkerSites")
 
-  // un site peut posséder plusieurs skills
-  skills Skill[]
+  // plusieurs skills
+  skills Skill[] @relation("WorkerSkills")
 }
