@@ -7,14 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Worker {
+  id     Int     @id @default(autoincrement())
+  user   User    @relation(fields: [id], references: [id], onDelete: Cascade)
+  skills SkillsOnWorkers[]
+}
+
 model Skills {
-  id       Int     @id @default(autoincrement())
-  label    String
-  worker   Worker? @relation(fields: [workerId], references: [id])
-  workerId Int?
+  id      Int     @id @default(autoincrement())
+  label   String
+  workers SkillsOnWorkers[]
 
   site   Site? @relation(fields: [siteId], references: [id])
   siteId Int?
+}
+
+model SkillsOnWorkers {
+  workerId Int
+  skillId  Int
+
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  skill  Skills @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([workerId, skillId]) // Clé primaire composite pour éviter les doublons
 }
 
 model Role {
@@ -44,12 +59,4 @@ model Site {
   startDate String
   endDate   String
   skills    Skills[]
-}
-
-model Worker {
-  id     Int      @id @default(autoincrement())
-  user   User     @relation(fields: [id], references: [id], onDelete: Cascade)
-  skills Skills[]
-
-  skillId Int
 }

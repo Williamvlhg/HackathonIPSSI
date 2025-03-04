@@ -17,6 +17,10 @@ import PostRegisterRouter from "./routes/post/register";
 import PostSiteRouter from "./routes/post/site";
 import PostSkillRouter from "./routes/post/skill";
 
+import PutSkillRouter from "./routes/put/skill";
+import PutUserRouter from "./routes/put/user";
+import PutWorkerRouter from "./routes/put/worker";
+
 dotenv.config();
 
 const port = process.env.PORT || 8080;
@@ -42,6 +46,11 @@ app.use("/login", PostLoginRouter);
 app.use("/register", PostRegisterRouter);
 app.use("/site", PostSiteRouter);
 app.use("/skill", PostSkillRouter);
+
+// ROUTES PUT
+app.use("/skill", PutSkillRouter);
+app.use("/user", PutUserRouter);
+app.use("/worker", PutWorkerRouter);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
