@@ -25,7 +25,7 @@ const items = [
   },
   {
     title: "Employés",
-    url: "/employees",
+    url: "/employes",
     icon: Users,
   },
   {
