@@ -19,11 +19,29 @@ export const Route = createFileRoute("/employes")({
 });
 
 
-function addEmploye() {
-  // Ajouter une fonction qui va faire appel à la fonction de création d'un chantier
-  console.log("Ajouter un chantier");
-  return null;
-}
+const data = [
+  {
+    id: 1,
+    name: "Chantier 1",
+    status: "En cours",
+    employees: 25,
+    totalTasks: 50
+  },
+  {
+    id: 2,
+    name: "Chantier 2",
+    status: "En attente",
+    employees: 15,
+    totalTasks: 30
+  },
+  {
+    id: 3,
+    name: "Chantier 3",
+    status: "Terminé",
+    employees: 30,
+    totalTasks: 45
+  }
+];
 
 function RouteComponent() {
   return (
@@ -60,8 +78,8 @@ function RouteComponent() {
       <div className="flex gap-2 mt-20 align-middle" >
         <span> Ajouter un chantier </span>
         <CirclePlus onClick={() => console.log("test")}/> 
-
       </div>
+
     </>
   );
 }
