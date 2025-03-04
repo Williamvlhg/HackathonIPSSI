@@ -89,32 +89,32 @@ function RouteComponent() {
   console.log(data);
   return (
     <>
-      <div className="flex justify-evenly mt-10">
-        <Card className="w-60 ">
+      <div className="flex space-x-4 mt-8 w-full">
+        <Card className="p-6 border rounded-lg space-y-2">
           <CardHeader>
             <CardTitle>
-              <FolderSync size={30}/>
+              <FolderSync size={48}/>
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-3xl">5</CardContent>
+          <CardContent className="text-2xl">5</CardContent>
           <CardDescription>Nombre de chantier (en cours)</CardDescription>
         </Card>
-        <Card className="w-60">
+        <Card className="p-6 border rounded-lg space-y-2">
           <CardHeader>
             <CardTitle>
-              <PersonStanding size={30} />
+              <PersonStanding size={48} />
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-3xl">37</CardContent>
+          <CardContent className="text-2xl">37</CardContent>
           <CardDescription>Nombre d'employés affectés</CardDescription>
         </Card>
-        <Card className="w-60">
+        <Card className="p-6 border rounded-lg space-y-2">
           <CardHeader>
             <CardTitle>
-              <FolderClosed size={30}/>
+              <FolderClosed size={48}/>
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-3xl">67</CardContent>
+          <CardContent className="text-2xl">67</CardContent>
           <CardDescription>Nombre totale de chantier</CardDescription>
         </Card>
       </div>

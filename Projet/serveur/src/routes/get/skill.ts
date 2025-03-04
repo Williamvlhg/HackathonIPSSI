@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import {prisma} from "../../lib/prisma";
 import {isValid, z} from "zod";
+import {isValid, z} from "zod";
 
 const router = Router();
 
@@ -31,6 +32,14 @@ router.get("/:id", async (req: Request, res: Response) => {
             data: skill ? skill : 'unknow skill'
         })
     } catch (e: any) {
+        const idValid = z.coerce.number().int().safeParse(req.params.id);
+
+        if(idValid) {
+            res.status(400).json({
+                success: false,
+                message: "invalid id"
+            })
+        }
         const idValid = z.coerce.number().int().safeParse(req.params.id);
 
         if(idValid) {
