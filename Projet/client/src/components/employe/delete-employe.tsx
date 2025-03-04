@@ -2,12 +2,15 @@ import { FC, JSX } from 'react'
 import { Button } from '../ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { getEmployes } from './get-cemploye'
 
 interface IDeleteEmployProps {
   userId: number
 }
 
 const DeleteEmploy: FC<IDeleteEmployProps> = ({ userId }): JSX.Element => {
+  const { refetch } = getEmployes()
+
   const { mutate } = useMutation({
     mutationKey: ['deleteEmploye'],
     mutationFn: async () => {
@@ -18,6 +21,7 @@ const DeleteEmploy: FC<IDeleteEmployProps> = ({ userId }): JSX.Element => {
         },
       })
 
+      refetch()
       toast('Utilisateur supprimé')
       return await res.json()
     },
