@@ -155,10 +155,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/calendar",
-<<<<<<< HEAD
-=======
         "/employes",
->>>>>>> 8046433d3427d7fabff614523790206ecc7b9021
         "/login",
         "/profile"
       ]
@@ -169,12 +166,9 @@ export const routeTree = rootRoute
     "/calendar": {
       "filePath": "calendar.tsx"
     },
-<<<<<<< HEAD
-=======
     "/employes": {
       "filePath": "employes.tsx"
     },
->>>>>>> 8046433d3427d7fabff614523790206ecc7b9021
     "/login": {
       "filePath": "login.tsx"
     },
