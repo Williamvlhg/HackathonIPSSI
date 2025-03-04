@@ -16,7 +16,9 @@ router.post("/", async (req: Request, res: Response) => {
 
   const isUserExist = users.some((user) => user.email === input.email);
   if (isUserExist) {
-    return res.status(400).json({ error: true, message: "User already exist" });
+    return res
+      .status(400)
+      .json({ success: false, message: "L'utilisateur existe déjà" });
   }
 
   const user = await prisma.user.create({
@@ -26,10 +28,10 @@ router.post("/", async (req: Request, res: Response) => {
   if (!user) {
     return res
       .status(400)
-      .json({ error: true, message: "Error while creating user" });
+      .json({ success: false, message: "Une erreur est survenue" });
   }
 
-  res.status(200).json({ error: false, message: "Vous avez créer un compte" });
+  res.status(200).json({ success: true, message: "Vous avez créer un compte" });
 });
 
 export default router;

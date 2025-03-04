@@ -6,6 +6,7 @@ import GetWorkerRouter from "./routes/get/worker";
 import GetSkillRouter from "./routes/get/skill";
 import GetUserRouter from "./routes/get/user";
 import GetSiteRouter from "./routes/get/site";
+import GetRoleRouter from "./routes/get/role";
 
 import DeleteWorkerRouter from "./routes/delete/worker";
 import DeleteSkillRouter from "./routes/delete/skill";
@@ -30,6 +31,7 @@ app.use("/worker", GetWorkerRouter);
 app.use("/skill", GetSkillRouter);
 app.use("/user", GetUserRouter);
 app.use("/site", GetSiteRouter);
+app.use("/role", GetRoleRouter);
 
 // ROUTES DELETE
 app.use("/worker", DeleteWorkerRouter);
