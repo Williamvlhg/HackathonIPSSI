@@ -4,7 +4,12 @@ import bodyParser from "body-parser";
 
 const app: Express = express();
 
-app.use(cors());
+var options = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+};
+app.use(cors(options));
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
