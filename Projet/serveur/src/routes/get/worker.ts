@@ -29,7 +29,13 @@ router.get("/:id", async (req: Request, res: Response) => {
                 id: Number(req.params.id)
             },
             include: {
-                skills: true
+                skills: true,
+                user: {
+                    include: {
+                        role: true
+                    }
+                }
+
             }
         })
 
