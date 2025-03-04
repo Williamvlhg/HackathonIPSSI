@@ -50,7 +50,7 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
       <DialogTrigger className={buttonVariants()}>Modifier</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Modification de {currentUser.firstName}</DialogTitle>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 mt-8 w-full'>
