@@ -5,4 +5,5 @@ export const siteSchema = z.object({
   address: z.string(),
   startDate: z.string(),
   endDate: z.string(),
+  skills: z.array(z.object({ id: z.number(), label: z.string() })),
 });

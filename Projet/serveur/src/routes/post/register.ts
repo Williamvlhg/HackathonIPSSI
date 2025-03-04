@@ -9,7 +9,7 @@ router.post("/", async (req: Request, res: Response) => {
   const { success, data: input } = registerSchema.safeParse(req.body);
 
   if (!success || !input) {
-    return res.status(400).json({ message: "Invalid data" });
+    return res.status(400).json({ success: false, message: "Invalid data" });
   }
 
   const users = await prisma.user.findMany();
