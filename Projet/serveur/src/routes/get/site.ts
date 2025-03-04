@@ -33,7 +33,7 @@ router.get("/:id", async (req: Request, res: Response) => {
             }
         })
 
-        res.status(site ? 200 : 400).json({
+        res.status(site ? 200 : 404).json({
             success: !!site,
             data: site ? site : 'unknow site'
         })
