@@ -24,6 +24,11 @@ const items = [
     icon: User,
   },
   {
+    title: "Employés",
+    url: "/employees",
+    icon: Users,
+  },
+  {
     title: "Chantiers",
     url: "/chantiers",
     icon: Briefcase,
