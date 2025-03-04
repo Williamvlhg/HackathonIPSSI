@@ -1,24 +1,26 @@
-import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
-import "./App.css";
-const url = 'http://localhost:8080/ouvriers';
-const router = createRouter({ routeTree });
+import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { routeTree } from './routeTree.gen'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
 
-async function test() {
-  const res = await fetch(url)
-  const data = await res.json()
-  console.log(data)
-  
-  return null;
-}
+const router = createRouter({ routeTree })
 
 function App() {
-  test()
+  const queryClient = new QueryClient()
+
   return (
-    <div className="App">
-      <RouterProvider router={router} />
-    </div>
-  );
+    <SidebarProvider>
+      <div className='flex h-screen'>
+        <AppSidebar />
+        <div className='p-4 w-full'>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </div>
+      </div>
+    </SidebarProvider>
+  )
 }
 
-export default App;
+export default App
