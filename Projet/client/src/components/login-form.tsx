@@ -1,12 +1,5 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -14,29 +7,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from '@/components/ui/form'
+import { cn } from '@/lib/utils'
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { Input } from '@/components/ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const formSchema = z.object({
   email: z.string(),
   password: z.string(),
 })
 
-export function LoginForm({
-  className,
-  ...props
-  
-}: React.ComponentProps<"div">) {
+export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   })
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -45,56 +34,53 @@ export function LoginForm({
     console.log(values)
   }
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle>Connectez-vous à votre compte</CardTitle>
-          <CardDescription>
-            Entrez votre mail pour vous connectez
-          </CardDescription>
+          <CardDescription>Entrez votre mail pour vous connectez</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField 
-            control={form.control} 
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <FormControl>
-                <Input placeholder="m@exemple.com"{...field}/>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-            />
-            
-            <FormField 
-            control={form.control} 
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="password">Mot de passe</FormLabel>
-                <FormControl>
-                <Input placeholder="********"{...field}/>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-            />
-              <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+              <FormField
+                control={form.control}
+                name='email'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor='email'>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder='m@exemple.com' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor='password'>Mot de passe</FormLabel>
+                    <FormControl>
+                      <Input placeholder='********' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className='flex flex-col gap-3'>
+                <Button type='submit' className='w-full'>
                   Se connecter
                 </Button>
-                
               </div>
-            <div className="mt-4 text-center text-sm">
-             Identifiant oublié ou mot de passe oublié ?{" "}
-              <a href="#" className="underline underline-offset-4">
-                Contactez un administrateur
-              </a>
-            </div>
+              <div className='mt-4 text-center text-sm'>
+                Identifiant oublié ou mot de passe oublié ?{' '}
+                <a href='#' className='underline underline-offset-4'>
+                  Contactez un administrateur
+                </a>
+              </div>
             </form>
           </Form>
         </CardContent>
