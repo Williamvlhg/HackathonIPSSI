@@ -1,19 +1,36 @@
 import { Router, Request, Response } from "express";
 import { loginSchema } from "../../types/login.schema";
+import { prisma } from "../../lib/prisma";
 
 const router = Router();
 
 // @ts-expect-error - overload
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   const { success, data } = loginSchema.safeParse(req.body);
 
   if (!success) {
-    return res.status(400).json({ message: "Invalid data" });
+    return res.status(400).json({ success: false, message: "Invalid data" });
   }
 
-  console.log(data);
+  const users = await prisma.user.findMany();
 
-  res.status(200).json({ message: "Login" });
+  const isUserEmailExist = users.some((user) => user.email === data.email);
+  if (!isUserEmailExist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "L'email n'existe pas" });
+  }
+
+  const isUserPasswordCorrect = users.some(
+    (user) => user.password === data.password
+  );
+  if (!isUserPasswordCorrect) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Mot de passe incorrect" });
+  }
+
+  res.status(200).json({ success: true, message: "Login" });
 });
 
 export default router;

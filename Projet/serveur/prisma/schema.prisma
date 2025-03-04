@@ -41,16 +41,13 @@ model Site {
   name    String
   address String
 
-  startDate DateTime
-  endDate   DateTime
+  startDate String
+  endDate   String
   skills    Skills[]
-  skillId   Int
 }
 
 model Worker {
   id     Int      @id @default(autoincrement())
   user   User     @relation(fields: [id], references: [id], onDelete: Cascade)
   skills Skills[]
-
-  skillId Int
 }

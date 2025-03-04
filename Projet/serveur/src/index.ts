@@ -15,6 +15,7 @@ import DeleteSiteRouter from "./routes/delete/site";
 import PostLoginRouter from "./routes/post/login";
 import PostRegisterRouter from "./routes/post/register";
 import PostSiteRouter from "./routes/post/site";
+import PostSkillRouter from "./routes/post/skill";
 
 dotenv.config();
 
@@ -37,9 +38,10 @@ app.use("/user", DeleteUserRouter);
 app.use("/site", DeleteSiteRouter);
 
 // ROUTES POST
-app.use('/login', PostLoginRouter)
-app.use('/register', PostRegisterRouter)
-app.use('/site', PostSiteRouter)
+app.use("/login", PostLoginRouter);
+app.use("/register", PostRegisterRouter);
+app.use("/site", PostSiteRouter);
+app.use("/skill", PostSkillRouter);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
