@@ -13,88 +13,18 @@ import { FolderClosed } from "lucide-react";
 import { PersonStanding } from 'lucide-react';
 import { CirclePlus } from 'lucide-react';
 import { Site } from '@/types/site';
+import { useQuery } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+const queryClient = new QueryClient();
 
 export const Route = createFileRoute("/chantier")({
-  component: RouteComponent,
+  component: () => (
+    <QueryClientProvider client={queryClient}>
+      <RouteComponent />
+    </QueryClientProvider>
+  ),
 });
-
-
-
-const data: Site[] = [
-  {
-    id: 1,
-    name: "Chantier 1",
-    skills: [
-      {
-        id: 1,
-        label: "Electricien",
-      },
-      {
-        id: 2,
-        label: "Menuisier",
-      },
-      {
-        id: 3,
-        label: "Plombier",
-      },
-      {
-        id: 4,
-        label: "Peintre",
-      },
-    ],
-    address: "12 rue les marchands",
-    startDate: "2021-10-10",
-    endDate: "2021-10-20",
-  },
-  {
-    id: 2,
-    name: "Chantier 2",
-    skills: [
-      {
-        id: 1,
-        label: "Electricien",
-      },
-      {
-        id: 3,
-        label: "Plombier",
-      },
-      {
-        id: 4,
-        label: "Peintre",
-      },
-    ],
-    address: "12 rue les marchands",
-    startDate: "2025-2-15",
-    endDate: "2025-3-25",
-  },
-  {
-    id: 3,
-    name: "Chantier 3",
-    skills: [
-      {
-        id: 1,
-        label: "Electricien",
-      },
-      {
-        id: 5,
-        label: "Maçon",
-      },
-      {
-        id: 3,
-        label: "Plombier",
-      },
-      {
-        id: 4,
-        label: "Peintre",
-      },
-    ],
-    address: "12 rue les marchands",
-    startDate: "2025-10-20",
-    endDate: "2025-10-30",
-  }
-
-];
 
 const columns: ColumnDef<Site, string>[] = [
   {
@@ -110,7 +40,9 @@ const columns: ColumnDef<Site, string>[] = [
     accessorKey: "skills",
     header: "Compétences",
     cell: ({ row }) => {
-      const skills = row.original.skills.map(skill => skill.label).join(", ");
+      const skills = row.original.skills.length > 0
+        ? row.original.skills.map(skill => skill.label).join(", ")
+        : "Aucune";
       return <span>{skills}</span>;
     },
   },
@@ -122,9 +54,39 @@ const columns: ColumnDef<Site, string>[] = [
     accessorKey: "endDate",
     header: "Date de fin",
   },
+  {
+    accessorKey: "status",
+    header: "Statut",
+    cell: ({ row }) => {
+      const today = new Date();
+      const startDate = new Date(row.original.startDate);
+      const endDate = new Date(row.original.endDate);
+      let status = "A démarrer";
+
+      if (today >= startDate && today <= endDate) {
+        status = "En cours";
+      } else if (today > endDate) {
+        status = "Terminée";
+      }
+
+      return <span>{status}</span>;
+    },
+  },
 ]
 
 function RouteComponent() {
+  const { data, error, isLoading } = useQuery<Site[]>({
+    queryKey: ['sites'],
+    queryFn: async () => {
+      const response = await fetch('http://localhost:8080/site/all');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      return result.data;
+    },
+  });
+  console.log(data);
   return (
     <>
       <div className="flex justify-evenly mt-10">
@@ -162,7 +124,16 @@ function RouteComponent() {
       </div>
 
         <div className="container mx-auto py-10">
-          <DataTable columns={columns} data={data} />
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : error ? (
+            <div>Error: {error.message}</div>
+          ) : (
+            <DataTable
+              data={data || []}
+              columns={columns}
+            />
+          )}
         </div>
 
 
