@@ -13,10 +13,10 @@ function App() {
     <SidebarProvider>
       <div className='flex h-screen'>
         <AppSidebar />
-        <div className='p-4 w-full'>
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
+        <div>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
         </div>
       </div>
     </SidebarProvider>
