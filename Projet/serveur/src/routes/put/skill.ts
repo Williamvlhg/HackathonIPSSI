@@ -6,7 +6,7 @@ const router = Router();
 
 router.put('/:id', async (req: Request, res: Response) => {
     try {
-        const skill = await prisma.skills.update({
+        const skill = await prisma.skill.update({
             where: {
                 id: Number(req.params.id)
             },
