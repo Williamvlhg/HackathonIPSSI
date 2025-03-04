@@ -7,18 +7,20 @@ import { AppSidebar } from '@/components/app-sidebar'
 const router = createRouter({ routeTree })
 
 function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient()
 
   return (
     <SidebarProvider>
-      <AppSidebar />
-        <div>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
+      <div className='flex h-screen'>
+        <AppSidebar />
+        <div className='p-4 w-full'>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
         </div>
+      </div>
     </SidebarProvider>
-  );
+  )
 }
 
 export default App
