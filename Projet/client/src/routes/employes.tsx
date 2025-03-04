@@ -1,4 +1,4 @@
-import AddEmploye from '@/components/employe/add-employe'
+import AddEmploye from '@/components/employe/add-employes'
 import DeleteEmploye from '@/components/employe/delete-employe'
 import UpdateEmploye from '@/components/employe/update-employe'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'

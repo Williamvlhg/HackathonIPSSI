@@ -2,7 +2,7 @@ import { Role } from '@/types/role'
 import { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { FC, JSX } from 'react'
+import { FC, JSX, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button, buttonVariants } from '../ui/button'
@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '../ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { toast } from 'sonner'
+import { getEmployes } from './get-cemploye'
 
 interface IUpdateEmployeProps {
   currentUser: User
@@ -24,6 +25,8 @@ const formSchema = z.object({
 })
 
 const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element => {
+  const [isOpen, setIsOpen] = useState(false)
+
   const { data } = useQuery<{ success: boolean; data: Role[] }>({
     queryKey: ['getRoles'],
     queryFn: async () => {
@@ -31,6 +34,8 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
       return await res.json()
     },
   })
+
+  const { refetch } = getEmployes()
 
   const { mutate } = useMutation({
     mutationKey: ['updateEmploye'],
@@ -48,9 +53,17 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
         }),
       })
 
-      toast('Utilisateur modifié')
-
       return await res.json()
+    },
+
+    onError: () => {
+      toast('Une erreur est survenue')
+    },
+
+    onSuccess: () => {
+      toast('Utilisateur modifié')
+      refetch()
+      setIsOpen(false)
     },
   })
 
@@ -69,7 +82,7 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
   }
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger className={buttonVariants()}>Modifier</DialogTrigger>
       <DialogContent>
         <DialogHeader>
