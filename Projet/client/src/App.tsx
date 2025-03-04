@@ -7,12 +7,13 @@ const router = createRouter({ routeTree });
 
 function App() {
   const queryClient = new QueryClient();
-
+  
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>
+      <RouterProvider router={router} />
     </div>
   );
 }
