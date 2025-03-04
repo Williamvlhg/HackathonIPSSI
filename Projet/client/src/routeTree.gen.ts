@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as LoginImport } from './routes/login'
+import { Route as EmployesImport } from './routes/employes'
 import { Route as CalendarImport } from './routes/calendar'
 import { Route as IndexImport } from './routes/index'
 
@@ -27,6 +28,12 @@ const ProfileRoute = ProfileImport.update({
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EmployesRoute = EmployesImport.update({
+  id: '/employes',
+  path: '/employes',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalendarImport
       parentRoute: typeof rootRoute
     }
+    '/employes': {
+      id: '/employes'
+      path: '/employes'
+      fullPath: '/employes'
+      preLoaderRoute: typeof EmployesImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -82,6 +96,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
+  '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
 }
@@ -89,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
+  '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
 }
@@ -97,22 +113,24 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
+  '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calendar' | '/login' | '/profile'
+  fullPaths: '/' | '/calendar' | '/employes' | '/login' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calendar' | '/login' | '/profile'
-  id: '__root__' | '/' | '/calendar' | '/login' | '/profile'
+  to: '/' | '/calendar' | '/employes' | '/login' | '/profile'
+  id: '__root__' | '/' | '/calendar' | '/employes' | '/login' | '/profile'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CalendarRoute: typeof CalendarRoute
+  EmployesRoute: typeof EmployesRoute
   LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
 }
@@ -120,6 +138,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CalendarRoute: CalendarRoute,
+  EmployesRoute: EmployesRoute,
   LoginRoute: LoginRoute,
   ProfileRoute: ProfileRoute,
 }
@@ -136,6 +155,10 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/calendar",
+<<<<<<< HEAD
+=======
+        "/employes",
+>>>>>>> 8046433d3427d7fabff614523790206ecc7b9021
         "/login",
         "/profile"
       ]
@@ -146,6 +169,12 @@ export const routeTree = rootRoute
     "/calendar": {
       "filePath": "calendar.tsx"
     },
+<<<<<<< HEAD
+=======
+    "/employes": {
+      "filePath": "employes.tsx"
+    },
+>>>>>>> 8046433d3427d7fabff614523790206ecc7b9021
     "/login": {
       "filePath": "login.tsx"
     },
