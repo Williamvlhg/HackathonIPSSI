@@ -14,13 +14,33 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useMutation } from '@tanstack/react-query'
 
 const formSchema = z.object({
-  email: z.string(),
+  email: z.string().email(),
   password: z.string(),
 })
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
+  const { isPending, mutate, data } = useMutation<
+    { success: boolean; message: string },
+    Error,
+    z.infer<typeof formSchema>
+  >({
+    mutationKey: ['login'],
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      const res = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+
+      return await res.json()
+    },
+  })
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,11 +48,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
       password: '',
     },
   })
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+    mutate(values)
   }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -64,7 +84,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                   <FormItem>
                     <FormLabel htmlFor='password'>Mot de passe</FormLabel>
                     <FormControl>
-                      <Input placeholder='********' {...field} />
+                      <Input placeholder='********' {...field} type='password' />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -72,9 +92,14 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
               />
               <div className='flex flex-col gap-3'>
                 <Button type='submit' className='w-full'>
-                  Se connecter
+                  {isPending ? 'loading' : 'Se connecter'}
                 </Button>
               </div>
+              {data?.success === false && (
+                <div className='bg-red-200 rounded-md p-2'>
+                  <p className='text-red-600 text-center'>{data?.message}</p>
+                </div>
+              )}
               <div className='mt-4 text-center text-sm'>
                 Identifiant oublié ou mot de passe oublié ?{' '}
                 <a href='#' className='underline underline-offset-4'>
