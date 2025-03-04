@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Home, User, Users, Briefcase, Calendar, Settings, LogOut } from "lucide-react";
 
 import {
   Sidebar,
@@ -9,59 +9,82 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
+    title: "Accueil",
+    url: "/",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Profil",
+    url: "/profile",
+    icon: User,
   },
   {
-    title: "Calendar",
-    url: "#",
+    title: "Employés",
+    url: "/employees",
+    icon: Users,
+  },
+  {
+    title: "Chantiers",
+    url: "/chantiers",
+    icon: Briefcase,
+  },
+  {
+    title: "Calendrier",
+    url: "/calendar",
     icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
   },
   {
     title: "Settings",
     url: "#",
     icon: Settings,
   },
-]
+  {
+    title: "Se déconnecter",
+    url: "#",
+    icon: LogOut,
+  },
+];
 
 export function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar className="w-64 h-screen flex flex-col justify-between shadow-lg">
+      <SidebarContent className="flex flex-col h-full">
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
+
+          <SidebarGroupLabel className="text-gray-700 font-semibold uppercase ">
+            Nom App ? 
+          </SidebarGroupLabel>
+          <div className="p-5 border-b text-center">
+            <User className="w-8 h-8 text-gray-700 mx-auto" />
+            <h2 className="text-sm font-semibold mt-2">Modifier - Nom</h2>
+            <p className="text-xs text-gray-500">admin@exemple.com</p>
+          </div>
+          <SidebarGroupContent className="flex-grow">
+            
+            <SidebarMenu className="py-5 space-y-5">
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
+                <SidebarMenuItem key={item.title} className="py-1">
+                  <SidebarMenuButton>
+                    <a
+                      href={item.url}
+                      className={`flex items-center gap-5 px-5 rounded-lg $`}
+                    >
+                      <item.icon className="w-5 h-5 text-gray-700" />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
+
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
