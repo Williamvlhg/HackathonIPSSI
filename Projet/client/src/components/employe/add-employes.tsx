@@ -1,7 +1,7 @@
 import { Role } from '@/types/role'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { FC, JSX } from 'react'
+import { FC, JSX, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { getEmployes } from './get-cemploye'
 
 const formSchema = z.object({
   firstName: z.string(),
@@ -20,6 +21,9 @@ const formSchema = z.object({
 })
 
 const AddEmploye: FC = (): JSX.Element => {
+  const [isOpen, setIsOpen] = useState(false)
+  const { refetch } = getEmployes()
+
   const { data } = useQuery<{ success: boolean; data: Role[] }>({
     queryKey: ['getRoles'],
     queryFn: async () => {
@@ -50,6 +54,7 @@ const AddEmploye: FC = (): JSX.Element => {
       })
 
       form.reset()
+      refetch()
 
       return await res.json()
     },
@@ -59,6 +64,7 @@ const AddEmploye: FC = (): JSX.Element => {
     },
 
     onSuccess: () => {
+      setIsOpen(false)
       toast('Utilisateur créé')
     },
   })
@@ -79,7 +85,7 @@ const AddEmploye: FC = (): JSX.Element => {
   }
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger className={buttonVariants()}>Ajouter un employé</DialogTrigger>
       <DialogContent>
         <DialogHeader>
