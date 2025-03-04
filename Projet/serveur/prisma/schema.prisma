@@ -8,39 +8,48 @@ datasource db {
 }
 
 model Skills {
-  id Int @id @default(autoincrement())
-  label String
-  worker Worker @relation(fields: [workerId], references: [id])
-  workerId Int
+  id       Int     @id @default(autoincrement())
+  label    String
+  worker   Worker? @relation(fields: [workerId], references: [id])
+  workerId Int?
 
-  site Site @relation(fields: [siteId], references: [id])
-  siteId Int
+  site   Site? @relation(fields: [siteId], references: [id])
+  siteId Int?
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  label String
+
+  user User[]
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  lastName String
+  id        Int    @id @default(autoincrement())
+  lastName  String
   firstName String
-  email String @unique
-  passsword String
-  role String @default("USER")
+  email     String @unique
+  password  String
+  role      Role   @relation(fields: [roleId], references: [id])
+  roleId    Int
+
   worker Worker?
 }
 
 model Site {
-  id Int @id @default(autoincrement())
-  name String
+  id      Int    @id @default(autoincrement())
+  name    String
   address String
 
   startDate DateTime
-  endDate DateTime
-  skills Skills[]
-  skillId Int
+  endDate   DateTime
+  skills    Skills[]
+  skillId   Int
 }
 
 model Worker {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [id], references: [id])
+  id     Int      @id @default(autoincrement())
+  user   User     @relation(fields: [id], references: [id], onDelete: Cascade)
   skills Skills[]
 
   skillId Int
