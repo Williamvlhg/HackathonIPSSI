@@ -29,15 +29,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
   const [cookie, setCookie] = useCookies(['user'])
 
   const { isPending, mutate, data } = useMutation<
-<<<<<<< HEAD
-    { success: boolean; message: string, info: string },
-=======
     {
       success: boolean
       message: string
       user: { id: number; email: string; role: { label: string } }
     },
->>>>>>> a38acbd9939b71403265ca1713c33d4aaa0539ef
     Error,
     z.infer<typeof formSchema>
   >({

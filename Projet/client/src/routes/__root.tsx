@@ -15,7 +15,6 @@ export const Route = createRootRoute({
       }
     }, [cookies, navigate])
 
-
     return (
       <>
         <Outlet />
