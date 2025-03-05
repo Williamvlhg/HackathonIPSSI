@@ -1,4 +1,4 @@
-import { getEmployes } from '@/components/employe/get-cemploye'
+import { getEmployes } from '@/services/employe.service'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,

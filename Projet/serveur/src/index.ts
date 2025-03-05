@@ -20,7 +20,7 @@ import PostSkillRouter from './routes/post/skill'
 
 import PutSkillRouter from './routes/put/skill'
 import PutUserRouter from './routes/put/user'
-//import PutWorkerRouter from "./routes/put/worker";
+import PutWorkerRouter from './routes/put/worker'
 import PutSiteRouter from './routes/put/site'
 
 dotenv.config()
@@ -53,7 +53,7 @@ app.use('/skill', PostSkillRouter)
 // ROUTES PUT
 app.use('/skill', PutSkillRouter)
 app.use('/user', PutUserRouter)
-//app.use("/worker", PutWorkerRouter);
+app.use('/worker', PutWorkerRouter)
 app.use('/site', PutSiteRouter)
 
 app.listen(port, () => {
