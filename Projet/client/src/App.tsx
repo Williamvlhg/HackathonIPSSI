@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { routeTree } from './routeTree.gen'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/app-sidebar'
+import { CookiesProvider } from 'react-cookie'
 
 const router = createRouter({ routeTree })
 
@@ -10,16 +11,18 @@ function App() {
   const queryClient = new QueryClient()
 
   return (
-    <SidebarProvider>
-      <div className='flex h-screen'>
-        <AppSidebar />
-        <div className='p-4 w-full'>
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <SidebarProvider>
+        <div className='flex h-screen'>
+          <AppSidebar />
+          <div className='p-4 w-full'>
+            <CookiesProvider defaultSetOptions={{ path: '/' }}>
+              <RouterProvider router={router} />
+            </CookiesProvider>
+          </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </QueryClientProvider>
   )
 }
 
