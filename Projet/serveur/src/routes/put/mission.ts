@@ -16,8 +16,8 @@ router.put('/:id', async (req: Request, res: Response) => {
 				title: req.body.title,
 				startDate: req.body.startDate,
 				endDate: req.body.endDate,
-				workerId: req.body.workerId,
-				siteId: req.body.siteId
+				workerId: Number(req.body.workerId),
+				siteId: Number(req.body.siteId)
 			}
 		})
 
