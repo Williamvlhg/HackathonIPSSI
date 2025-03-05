@@ -27,7 +27,6 @@ export const Route = createFileRoute('/chantier')({
 
 function RouteComponent() {
   const { data, isLoading, error } = getSites()
-  console.log(data)
 
   return (
     <>
