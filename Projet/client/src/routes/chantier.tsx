@@ -1,3 +1,4 @@
+import { buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -116,7 +117,10 @@ function RouteComponent() {
                         <span className='text-gray-500 text-xs'>Aucun travailleur</span>
                       )}
                     </TableCell>
-                    <TableCell className='space-x-2'>
+                    <TableCell className='space-x-2 flex items-center'>
+                      <a href={`/chantier/${site.id}`} className={buttonVariants()}>
+                        Détails
+                      </a>
                       <UpdateSite currentSite={site} />
                       <DeleteSite siteId={site.id} />
                     </TableCell>
