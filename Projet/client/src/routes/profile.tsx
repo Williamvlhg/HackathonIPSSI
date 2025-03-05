@@ -1,103 +1,57 @@
+import { Badge } from '@/components/ui/badge'
+import UpdateProfile from '@/features/profile/update-profile'
+import { getEmploye } from '@/services/employe.service'
 import { createFileRoute } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { useState } from 'react'
-
-const userSchema = z.object({
-  name: z.string(),
-  email: z.string(),
-  role: z.string(),
-});
-
-const passwordSchema = z.object({
-  password: z.string(),
-});
+import { useCookies } from 'react-cookie'
 
 export const Route = createFileRoute('/profile')({
   component: Profile,
-});
-
-const userData = {
-  name: 'Jean Dupont',
-  email: 'jean.dupont@example.com',
-  role: 'Chef de chantier',
-};
-
-const validatedUser = userSchema.parse(userData);
+})
 
 function Profile() {
-  const [isEditing, setIsEditing] = useState(false);
+  const [cookie] = useCookies(['user'])
+  const { data } = getEmploye(cookie.user.id)
 
-  const form = useForm<z.infer<typeof passwordSchema>>({
-    resolver: zodResolver(passwordSchema),
-    defaultValues: {
-      password: '',
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof passwordSchema>) {
-    console.log("Nouveau mot de passe:", values.password);
-    setIsEditing(false);
+  if (!data) {
+    return <></>
   }
 
   return (
-    <div className="flex justify-center items-center h-screen pl-10">
-      <Card className='w-128 rounded-lg bg-white p-5'>
-        <CardHeader>
-          <CardTitle className='text-xl font-bold text-center text-gray-900'>
-            Profil de l'utilisateur
-          </CardTitle>
-        </CardHeader>
-        <CardContent className='space-y-5'>
-          <p className='text-gray-700'><strong className='font-medium'>Nom :</strong> {validatedUser.name}</p>
-          <p className='text-gray-700'><strong className='font-medium'>Email :</strong> {validatedUser.email}</p>
-          <p className='text-gray-700'><strong className='font-medium'>Rôle :</strong> {validatedUser.role}</p>
+    <>
+      <section className='space-y-2'>
+        <h2 className='text-4xl'>
+          {data.data.firstName} {data.data.lastName}
+        </h2>
+        <Badge className='uppercase'>{data?.data.role.label}</Badge>
+      </section>
 
-          {!isEditing ? (
-            <Button className='w-full mt-5' onClick={() => setIsEditing(true)}>
-              Modifier le mot de passe
-            </Button>
-          ) : (
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
-                <FormField
-                  control={form.control}
-                  name='password'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nouveau mot de passe</FormLabel>
-                      <FormControl>
-                        <Input type='password' placeholder='********' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="flex justify-between">
-                  <Button type="submit">Enregistrer</Button>
-                  <Button variant='outline' onClick={() => setIsEditing(false)}>
-                    Annuler
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          )}
-        </CardContent>
-      </Card>
-    </div>
-  );
+      <hr className='my-8' />
+
+      <section>
+        <article className='flex items-center space-x-4'>
+          <h2 className='text-2xl'>Vos informations</h2>
+          <UpdateProfile user={{ id: data.data.id, email: data.data.email, password: '' }} />
+        </article>
+        <article className='mt-6 space-x-2 grid grid-cols-[.1fr_1fr] gap-4'>
+          <p>Email</p>
+          <p>{data?.data.email}</p>
+          <p>Mot de passe</p>
+          <p>*********</p>
+        </article>
+      </section>
+
+      <hr className='my-8' />
+
+      <section>
+        <h2 className='text-2xl'>Compétences</h2>
+        <article className='mt-4 px-6 py-3 rounded-2xl border space-x-2'>
+          <Badge>PHP</Badge>
+          <Badge>PHP</Badge>
+          <Badge>PHP</Badge>
+        </article>
+      </section>
+    </>
+  )
 }
 
-export default Profile;
+export default Profile
