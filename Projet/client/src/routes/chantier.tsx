@@ -27,6 +27,7 @@ export const Route = createFileRoute('/chantier')({
 
 function RouteComponent() {
   const { data, isLoading, error } = getSites()
+  console.log(data)
 
   return (
     <>
@@ -105,9 +106,11 @@ function RouteComponent() {
 
                     <TableCell>
                       {Array.isArray(site.workers) && site.workers.length > 0 ? (
-                        <div className='flex flex-wrap gap-2'>
+                        <div>
                           {site.workers.map((worker) => (
-                            <span key={worker.id}>Worker #{worker.id}</span>
+                            <p key={worker.id}>
+                              {worker.user[0].firstName} - {worker.user[0].lastName}
+                            </p>
                           ))}
                         </div>
                       ) : (
