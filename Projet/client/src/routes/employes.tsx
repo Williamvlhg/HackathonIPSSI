@@ -1,6 +1,3 @@
-import AddEmploye from '@/components/employe/add-employes'
-import DeleteEmploye from '@/components/employe/delete-employe'
-import UpdateEmploye from '@/components/employe/update-employe'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -10,6 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import AddEmploye from '@/features/employes/add/add-employes'
+import DeleteEmploye from '@/features/employes/delete-employe'
+import UpdateEmploye from '@/features/employes/update/update-employe'
 import { User } from '@/types/user'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'

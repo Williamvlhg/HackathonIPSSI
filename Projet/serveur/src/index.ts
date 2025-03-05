@@ -1,61 +1,61 @@
-import dotenv from "dotenv";
-import { Request, Response } from "express";
-import { app } from "./lib/express";
+import dotenv from 'dotenv'
+import { Request, Response } from 'express'
+import { app } from './lib/express'
 
-import GetWorkerRouter from "./routes/get/worker";
-import GetSkillRouter from "./routes/get/skill";
-import GetUserRouter from "./routes/get/user";
-import GetSiteRouter from "./routes/get/site";
-import GetRoleRouter from "./routes/get/role";
+import GetWorkerRouter from './routes/get/worker'
+import GetSkillRouter from './routes/get/skill'
+import GetUserRouter from './routes/get/user'
+import GetSiteRouter from './routes/get/site'
+import GetRoleRouter from './routes/get/role'
 
-import DeleteWorkerRouter from "./routes/delete/worker";
-import DeleteSkillRouter from "./routes/delete/skill";
-import DeleteUserRouter from "./routes/delete/user";
-import DeleteSiteRouter from "./routes/delete/site";
+import DeleteWorkerRouter from './routes/delete/worker'
+import DeleteSkillRouter from './routes/delete/skill'
+import DeleteUserRouter from './routes/delete/user'
+import DeleteSiteRouter from './routes/delete/site'
 
-import PostLoginRouter from "./routes/post/login";
-import PostRegisterRouter from "./routes/post/register";
-import PostSiteRouter from "./routes/post/site";
-import PostSkillRouter from "./routes/post/skill";
+import PostLoginRouter from './routes/post/login'
+import PostRegisterRouter from './routes/post/register'
+import PostSiteRouter from './routes/post/site'
+import PostSkillRouter from './routes/post/skill'
 
-import PutSkillRouter from "./routes/put/skill";
-import PutUserRouter from "./routes/put/user";
+import PutSkillRouter from './routes/put/skill'
+import PutUserRouter from './routes/put/user'
 //import PutWorkerRouter from "./routes/put/worker";
-import PutSiteRouter from "./routes/put/site";
+import PutSiteRouter from './routes/put/site'
 
-dotenv.config();
+dotenv.config()
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080
 
-app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Hello World" });
-});
+app.get('/', (req: Request, res: Response) => {
+  res.json({ message: 'Hello World' })
+})
 
 // ROUTES GET
-app.use("/worker", GetWorkerRouter);
-app.use("/skill", GetSkillRouter);
-app.use("/user", GetUserRouter);
-app.use("/site", GetSiteRouter);
-app.use("/role", GetRoleRouter);
+app.use('/worker', GetWorkerRouter)
+app.use('/skill', GetSkillRouter)
+app.use('/user', GetUserRouter)
+app.use('/site', GetSiteRouter)
+app.use('/role', GetRoleRouter)
 
 // ROUTES DELETE
-app.use("/worker", DeleteWorkerRouter);
-app.use("/skill", DeleteSkillRouter);
-app.use("/user", DeleteUserRouter);
-app.use("/site", DeleteSiteRouter);
+app.use('/worker', DeleteWorkerRouter)
+app.use('/skill', DeleteSkillRouter)
+app.use('/user', DeleteUserRouter)
+app.use('/site', DeleteSiteRouter)
 
 // ROUTES POST
-app.use("/login", PostLoginRouter);
-app.use("/register", PostRegisterRouter);
-app.use("/site", PostSiteRouter);
-app.use("/skill", PostSkillRouter);
+app.use('/login', PostLoginRouter)
+app.use('/register', PostRegisterRouter)
+app.use('/site', PostSiteRouter)
+app.use('/skill', PostSkillRouter)
 
 // ROUTES PUT
-app.use("/skill", PutSkillRouter);
-app.use("/user", PutUserRouter);
+app.use('/skill', PutSkillRouter)
+app.use('/user', PutUserRouter)
 //app.use("/worker", PutWorkerRouter);
-app.use("/site", PutSiteRouter);
+app.use('/site', PutSiteRouter)
 
 app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+  console.log(`[server]: Server is running at http://localhost:${port}`)
+})
