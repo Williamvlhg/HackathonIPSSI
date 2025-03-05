@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { prisma } from '../../lib/prisma'
+import {PrismaClientKnownRequestError} from "@prisma/client/runtime/library";
 
 const router = Router()
 
@@ -19,6 +20,36 @@ router.put('/:id', async (req: Request, res: Response) => {
       },
     })
 
+    res.status(200).json({
+      success: true,
+      data: user,
+    })
+  } catch (e: any) {
+	  if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025') {
+		  return res.status(404).json({
+			  success: false,
+			  message: 'invalid id'
+		  });
+	  }
+
+	  res.status(500).json({
+		  success: false,
+		  message: e.message
+	  });
+  }
+})
+
+// @ts-expect-error - overload
+router.put('/profile/:id', async (req: Request, res: Response) => {
+  try {
+    const user = await prisma.user.update({
+      where: { id: Number(req.params.id) },
+      data: {
+        email: req.body.email,
+        password: req.body.password,
+      },
+    })
+
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -26,11 +57,11 @@ router.put('/:id', async (req: Request, res: Response) => {
       })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      data: user,
+      message: 'Profile mis à jour',
     })
-  } catch (e: any) {
+  } catch (e) {
     console.error(e)
     res.status(500).json({
       success: false,
