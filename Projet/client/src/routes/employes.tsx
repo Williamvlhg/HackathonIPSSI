@@ -15,6 +15,7 @@ import { getEmployes } from '@/services/employe.service'
 import { createFileRoute } from '@tanstack/react-router'
 
 import { FolderClosed, FolderSync, PersonStanding } from 'lucide-react'
+import { useCookies } from 'react-cookie'
 
 export const Route = createFileRoute('/employes')({
   component: RouteComponent,
@@ -22,6 +23,7 @@ export const Route = createFileRoute('/employes')({
 
 function RouteComponent() {
   const { data, isLoading } = getEmployes()
+  const [cookie] = useCookies(['user'])
 
   return (
     <>
@@ -55,14 +57,16 @@ function RouteComponent() {
         </Card>
       </div>
 
-      <section className='flex gap-2 my-8 align-middle'>
-        <AddEmploye />
-      </section>
+      {cookie.user.role.label !== 'worker' && (
+        <section className='flex gap-2 my-8 align-middle'>
+          <AddEmploye />
+        </section>
+      )}
 
       {isLoading ? (
         <p>chargement</p>
       ) : (
-        <section>
+        <section className='mt-8'>
           <Table>
             <TableHeader>
               <TableRow>
@@ -85,10 +89,12 @@ function RouteComponent() {
                   <TableCell className='flex flex-wrap items-center gap-1 max-w-lg'>
                     {user.worker?.skills.map((item, key) => <Badge key={key}>{item.label}</Badge>)}
                   </TableCell>
-                  <TableCell className='space-x-2'>
-                    <UpdateEmploye currentUser={user} />
-                    <DeleteEmploye userId={user.id} />
-                  </TableCell>
+                  {cookie.user.role.label !== 'worker' && (
+                    <TableCell className='space-x-2'>
+                      <UpdateEmploye currentUser={user} />
+                      <DeleteEmploye userId={user.id} />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
             </TableBody>
