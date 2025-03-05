@@ -9,14 +9,12 @@ const router = Router()
 router.post('/create', async (req: Request, res: Response) => {
   const { success, data: input } = siteSchema.safeParse(req.body)
 
-  console.log(input)
-
   if (!success) {
-    return res.status(400).json({ success: false, message: "Données invalides" });
+    return res.status(400).json({ success: false, message: 'Données invalides' })
   }
   try {
-    // Vérification des workers
-    const workersExist = await prisma.user.findMany({
+    // vérification des workers si ils existent
+    const workersExist = await prisma.worker.findMany({
       where: { id: { in: input.workers.map((w) => w.id) } },
     })
 
@@ -42,13 +40,10 @@ router.post('/create', async (req: Request, res: Response) => {
         startDate: input.startDate,
         endDate: input.endDate,
         workers: {
-          connect: input.workers.map((c) => ({ id: c.id })) || [],
+          connect: workersExist.map((worker) => ({ id: worker.id })),
         },
         skills: {
-          connect: input.skills.map((skill) => ({
-            id: skill.id,
-            label: skill.label,
-          })),
+          connect: skillsExist.map((skill) => ({ id: skill.id })),
         },
       },
     })
@@ -66,16 +61,17 @@ router.post('/create', async (req: Request, res: Response) => {
     })
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.error(error)
+      console.error('Erreur de requête Prisma:', error)
       return res.status(400).json({
         success: false,
-<<<<<<< HEAD
-        message: error,
+        message: `Erreur de requête Prisma: ${error}`,
       })
-=======
-        message: "Données invalides",
-      });
->>>>>>> df8b98702bf360d058ef2a3a3ee86fb38c83d482
+    } else {
+      console.error('Erreur inconnue:', error)
+      return res.status(500).json({
+        success: false,
+        message: 'Une erreur interne est survenue.',
+      })
     }
   }
 })
