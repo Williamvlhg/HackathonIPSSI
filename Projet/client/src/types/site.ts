@@ -7,4 +7,5 @@ export type Site = {
   startDate: string;
   endDate: string;
   skills: Skill[];
+  workers: Worker[];
 };
