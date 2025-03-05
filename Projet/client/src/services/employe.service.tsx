@@ -6,6 +6,7 @@ import { User } from '@/types/user'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { updateWorker } from './worker.service'
 
 /**
  * Récupérer tous les employés
@@ -67,13 +68,14 @@ export function deleteEmploye(userId: number) {
   return { mutate }
 }
 
-export function updateEmploye(userId: number) {
+export function updateEmploye(userId: number, workerId: number | undefined) {
   const { refetch } = getEmployes()
+  const { mutate: updateWorkerSkills } = updateWorker()
 
   const { mutate } = useMutation({
     mutationKey: ['updateEmploye'],
     mutationFn: async (values: z.infer<typeof updateEmployeSchema>) => {
-      const res = await fetch(`http://localhost:8080/user/${userId}`, {
+      const resUpdateUser = await fetch(`http://localhost:8080/user/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json',
@@ -86,7 +88,15 @@ export function updateEmploye(userId: number) {
         }),
       })
 
-      return await res.json()
+      // si c'est un worker on lui passe le nouveau tableau de skills
+      if (workerId !== undefined) {
+        updateWorkerSkills({
+          workerId: workerId!,
+          skills: values.skills!,
+        })
+      }
+
+      return await resUpdateUser.json()
     },
 
     onError: () => {

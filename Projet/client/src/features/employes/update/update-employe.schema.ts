@@ -5,4 +5,5 @@ export const updateEmployeSchema = z.object({
   lastName: z.string(),
   email: z.string().email(),
   roleId: z.string(),
+  skills: z.array(z.object({ id: z.number(), label: z.string() })).nullable(),
 })

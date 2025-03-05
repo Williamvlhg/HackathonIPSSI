@@ -1,11 +1,12 @@
-import { Router, Request, Response } from 'express'
+import { Request, Response, Router } from 'express'
 import { prisma } from '../../lib/prisma'
-import { z } from 'zod'
 
 const router = Router()
 
+// @ts-expect-error - overload
 router.put('/:id', async (req: Request, res: Response) => {
   try {
+    // Mise à jour de l'utilisateur
     const user = await prisma.user.update({
       where: {
         id: Number(req.params.id),
@@ -18,19 +19,23 @@ router.put('/:id', async (req: Request, res: Response) => {
       },
     })
 
-    res.status(user ? 200 : 404).json({
-      success: !!user,
-      data: user ? user : 'unknow id',
-    })
-  } catch (e: any) {
-    const idValid = z.coerce.number().int().safeParse(req.params.id)
-
-    if (idValid) {
-      res.status(400).json({
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        message: 'invalid id',
+        message: 'User not found',
       })
     }
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    })
+  } catch (e: any) {
+    console.error(e)
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+    })
   }
 })
 

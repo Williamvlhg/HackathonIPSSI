@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Dialog,
@@ -23,7 +24,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { updateEmploye } from '@/services/employe.service'
+import { getSkills } from '@/services/skill.service'
 import { Role } from '@/types/role'
+import { Skill } from '@/types/skill'
 import { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
@@ -40,6 +43,11 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
   const [isOpen, setIsOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
 
+  // state pour récupérer et modifier les compétences
+  const [competences, setCompetences] = useState<Skill[]>(currentUser.worker?.skills || [])
+
+  const { data: skills } = getSkills()
+
   const { data } = useQuery<{ success: boolean; data: Role[] }>({
     queryKey: ['getRoles'],
     queryFn: async () => {
@@ -48,7 +56,7 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
     },
   })
 
-  const { mutate } = updateEmploye(currentUser.id)
+  const { mutate } = updateEmploye(currentUser.id, currentUser.worker?.id)
 
   const form = useForm<z.infer<typeof updateEmployeSchema>>({
     resolver: zodResolver(updateEmployeSchema),
@@ -57,12 +65,41 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
       lastName: currentUser.lastName,
       email: currentUser.email,
       roleId: currentUser.role.id.toString(),
+      skills: competences,
     },
   })
 
+  function onChangeSkill(value: { id: number; label: string }) {
+    setCompetences((curr) => {
+      if (curr!.some((skill) => skill.id !== value.id)) {
+        return [...curr!, value]
+      }
+
+      return [...curr!, value]
+    })
+  }
+
+  function removeSkill(id: number) {
+    setCompetences((curr) => curr!.filter((skill) => skill.id !== id))
+  }
+
   function onSubmit(values: z.infer<typeof updateEmployeSchema>) {
     startTransition(() => {
-      mutate(values)
+      // si c'est un worker on lui passe le nouveau tableau de skills
+      if (currentUser.worker?.id) {
+        mutate({
+          email: values.email,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          roleId: values.roleId,
+          skills: competences!,
+        })
+
+        // si c'est dans le else alors ce n'est pas un worker
+      } else {
+        mutate(values)
+      }
+
       setIsOpen(false)
     })
   }
@@ -148,6 +185,52 @@ const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element =>
                   </FormItem>
                 )}
               />
+
+              {/* On affiche les compétences si le user est un worker */}
+              {currentUser.worker && (
+                <div>
+                  <FormField
+                    control={form.control}
+                    name='skills'
+                    render={({ field }) => (
+                      <FormItem className='w-full'>
+                        <FormLabel>Compétences</FormLabel>
+                        <FormControl>
+                          {/* @ts-expect-error - noramlement je ne peux passer qu'un string */}
+                          <Select {...field} onValueChange={onChangeSkill}>
+                            <SelectTrigger className='w-full'>
+                              <SelectValue placeholder='Compétences' />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {skills?.data.map((skill, key) => (
+                                // @ts-expect-error - noramlement je ne peux passer qu'un string
+                                <SelectItem key={key} value={skill}>
+                                  {skill.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {competences!.length > 0 && (
+                    <div className='border rounded-md p-2 mt-2 flex gap-1 items-center'>
+                      {competences?.map((item) => (
+                        <Badge
+                          key={item.id}
+                          onClick={() => removeSkill(item.id)}
+                          className='cursor-pointer'
+                        >
+                          {item.label}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               <Button type='submit' className='w-full'>
                 {isPending ? 'loading' : 'Enregistré'}
