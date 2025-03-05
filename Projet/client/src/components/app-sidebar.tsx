@@ -66,7 +66,7 @@ export function AppSidebar() {
           </div>
           <SidebarGroupContent className="flex-grow">
             
-            <SidebarMenu className="py-5 space-y-5">
+            <SidebarMenu className="py-5 space-y-2">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title} className="py-1">
                   <SidebarMenuButton className="p-5 justify-start transition-transform transform hover:scale-105 hover:bg-gray-200">
