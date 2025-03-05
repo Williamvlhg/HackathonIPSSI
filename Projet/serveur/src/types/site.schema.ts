@@ -7,6 +7,7 @@ export const siteSchema = z.object({
   endDate: z.string(),
 
   skills: z.array(z.object({ id: z.number(), label: z.string() })),
+
   workers: z.array(
     z.object({
       id: z.number(),

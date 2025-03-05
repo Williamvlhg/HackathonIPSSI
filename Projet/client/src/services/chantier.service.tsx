@@ -88,15 +88,19 @@ export function updateSite(siteId: number) {
         }),
       })
 
+      if (!res.ok) {
+        throw new Error('ok')
+      }
+
       return await res.json()
     },
 
-    onError: () => {
-      toast('Une erreur est survenue')
+    onError: (data) => {
+      toast(data.message)
     },
 
-    onSuccess: () => {
-      toast('Chantier modifié')
+    onSuccess: (data) => {
+      toast(data.message)
       refetch()
     },
   })
