@@ -1,8 +1,6 @@
-import { Skill } from "./skill";
-import { User } from "./user";
+import { Skill } from './skill'
 
 export type WorkerType = {
-  id: number;
-  user: User;
-  skills: Skill[];
-};
+  id: number
+  skills: Skill[]
+}
