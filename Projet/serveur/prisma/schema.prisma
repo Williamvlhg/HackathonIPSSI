@@ -32,6 +32,7 @@ model User {
 
 // Worker est un user qui travail dans un chantier
 model Worker {
+<<<<<<< HEAD
 id Int @id @default(autoincrement())
 
 // relation one to one => UN user est peut être UN worker
@@ -62,6 +63,38 @@ workerId Int?
 // UN ou PLUSIEURS skills peuvent être associés à un site
 site   Site? @relation(fields: [siteId], references: [id])
 siteId Int?
+=======
+  id Int @id @default(autoincrement())
+
+  // relation one to one => UN user est peut être UN worker
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique // @unique veut dire relation one to one
+
+  /**
+   * Un worker à un ou plusieurs skills
+   * relation one to many
+   */
+  skills Skill[]
+
+  // le worker peut travailler sur plusieurs sites
+  sites Site[] @relation("WorkerSites")
+}
+
+model Skill {
+  id    Int    @id @default(autoincrement())
+  label String
+
+  /**
+   * Plusieurs skills peuvent être associés à un worker
+   * relation many to one
+   */
+  worker   Worker? @relation(fields: [workerId], references: [id])
+  workerId Int?
+
+  // UN ou PLUSIEURS skills peuvent être associés à un site
+  site   Site? @relation(fields: [siteId], references: [id])
+  siteId Int?
+>>>>>>> d082839757773629ceb86fd64e19bca9ac2f56e0
 }
 
 model Site {
@@ -77,4 +110,8 @@ model Site {
 
   // un site peut posséder plusieurs skills
   skills Skill[]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d082839757773629ceb86fd64e19bca9ac2f56e0

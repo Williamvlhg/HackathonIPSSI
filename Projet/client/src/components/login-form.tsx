@@ -37,6 +37,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
         body: JSON.stringify(values),
       })
 
+      console.log(values)
+
       return await res.json()
     },
   })

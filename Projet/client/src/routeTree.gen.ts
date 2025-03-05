@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as LoginImport } from './routes/login'
 import { Route as EmployesImport } from './routes/employes'
+import { Route as ChantierImport } from './routes/chantier'
 import { Route as CalendarImport } from './routes/calendar'
 import { Route as IndexImport } from './routes/index'
 
@@ -34,6 +35,12 @@ const LoginRoute = LoginImport.update({
 const EmployesRoute = EmployesImport.update({
   id: '/employes',
   path: '/employes',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChantierRoute = ChantierImport.update({
+  id: '/chantier',
+  path: '/chantier',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,6 +74,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalendarImport
       parentRoute: typeof rootRoute
     }
+    '/chantier': {
+      id: '/chantier'
+      path: '/chantier'
+      fullPath: '/chantier'
+      preLoaderRoute: typeof ChantierImport
+      parentRoute: typeof rootRoute
+    }
     '/employes': {
       id: '/employes'
       path: '/employes'
@@ -96,6 +110,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
+  '/chantier': typeof ChantierRoute
   '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
@@ -104,6 +119,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
+  '/chantier': typeof ChantierRoute
   '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
@@ -113,6 +129,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
+  '/chantier': typeof ChantierRoute
   '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
@@ -120,16 +137,30 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calendar' | '/employes' | '/login' | '/profile'
+  fullPaths:
+    | '/'
+    | '/calendar'
+    | '/chantier'
+    | '/employes'
+    | '/login'
+    | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calendar' | '/employes' | '/login' | '/profile'
-  id: '__root__' | '/' | '/calendar' | '/employes' | '/login' | '/profile'
+  to: '/' | '/calendar' | '/chantier' | '/employes' | '/login' | '/profile'
+  id:
+    | '__root__'
+    | '/'
+    | '/calendar'
+    | '/chantier'
+    | '/employes'
+    | '/login'
+    | '/profile'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CalendarRoute: typeof CalendarRoute
+  ChantierRoute: typeof ChantierRoute
   EmployesRoute: typeof EmployesRoute
   LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
@@ -138,6 +169,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CalendarRoute: CalendarRoute,
+  ChantierRoute: ChantierRoute,
   EmployesRoute: EmployesRoute,
   LoginRoute: LoginRoute,
   ProfileRoute: ProfileRoute,
@@ -155,6 +187,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/calendar",
+        "/chantier",
         "/employes",
         "/login",
         "/profile"
@@ -165,6 +198,9 @@ export const routeTree = rootRoute
     },
     "/calendar": {
       "filePath": "calendar.tsx"
+    },
+    "/chantier": {
+      "filePath": "chantier.tsx"
     },
     "/employes": {
       "filePath": "employes.tsx"
