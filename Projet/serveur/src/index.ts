@@ -19,6 +19,7 @@ import PostLoginRouter from './routes/post/login'
 import PostRegisterRouter from './routes/post/register'
 import PostSiteRouter from './routes/post/site'
 import PostSkillRouter from './routes/post/skill'
+import PostMissionRouter from './routes/post/mission'
 
 import PutSkillRouter from './routes/put/skill'
 import PutUserRouter from './routes/put/user'
@@ -53,6 +54,7 @@ app.use('/login', PostLoginRouter)
 app.use('/register', PostRegisterRouter)
 app.use('/site', PostSiteRouter)
 app.use('/skill', PostSkillRouter)
+app.use('/mission', PostMissionRouter)
 
 // ROUTES PUT
 app.use('/skill', PutSkillRouter)
