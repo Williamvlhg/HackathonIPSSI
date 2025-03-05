@@ -84,6 +84,7 @@ export function updateSite(siteId: number) {
           startDate: values.startDate,
           endDate: values.endDate,
           skills: values.skills,
+          workers: values.workers,
         }),
       })
 
@@ -124,6 +125,7 @@ export function addSite() {
           startDate: values.startDate,
           endDate: values.endDate,
           skills: values.skills,
+          workers: values.workers,
         }),
       })
 

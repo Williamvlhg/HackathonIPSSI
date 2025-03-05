@@ -98,6 +98,7 @@ function RouteComponent() {
                 <TableHead>Date de début</TableHead>
                 <TableHead>Date de fin</TableHead>
                 <TableHead>Compétences requises</TableHead>
+                <TableHead>Employés</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -114,8 +115,7 @@ function RouteComponent() {
                       <div className="flex flex-wrap gap-2">
                         {site.skills.map(skill => (
                           <span 
-                            key={skill.id} 
-                            
+                            key={skill.id}
                           >
                             {skill.label}
                           </span>
@@ -123,6 +123,20 @@ function RouteComponent() {
                       </div>
                     ) : (
                       <span className="text-gray-500 text-xs">Aucune compétence</span>
+                    )}
+                  </TableCell>
+
+                  <TableCell>
+                    {Array.isArray(site.workers) && site.workers.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {site.workers.map(worker => (
+                          <span key={worker.id}>
+                            Worker #{worker.id}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <span className="text-gray-500 text-xs">Aucun travailleur</span>
                     )}
                   </TableCell>
                   <TableCell className="space-x-2">
