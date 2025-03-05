@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+<<<<<<< HEAD
     Dialog,
     DialogContent,
     DialogDescription,
@@ -16,10 +17,21 @@ import {
 } from "@/components/ui/dialog"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "@/components/data-table";
+=======
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+>>>>>>> a38acbd9939b71403265ca1713c33d4aaa0539ef
 import { FolderSync } from 'lucide-react';
 import { FolderClosed } from "lucide-react";
 import { PersonStanding } from 'lucide-react';
-import { CirclePlus } from 'lucide-react';
+import AddSite from '@/features/chantiers/add/add-chantiers'
+import DeleteSite from '@/features/chantiers/delete-chantier'
+import UpdateSite from '@/features/chantiers/update/update-chantier'
 import { Site } from '@/types/site';
 import { useQuery } from '@tanstack/react-query';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -38,6 +50,7 @@ export const Route = createFileRoute("/chantier")({
   ),
 });
 
+<<<<<<< HEAD
 /*const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
 })*/
@@ -115,6 +128,8 @@ const columns: ColumnDef<Site, string>[] = [
     },
 ]
 
+=======
+>>>>>>> a38acbd9939b71403265ca1713c33d4aaa0539ef
 function RouteComponent() {
   const { data, error, isLoading } = useQuery<Site[]>({
     queryKey: ['sites'],
@@ -159,25 +174,64 @@ function RouteComponent() {
           <CardDescription className="px-6">Nombre totale de chantier</CardDescription>
         </Card>
       </div>
-      <div className="flex gap-2 mt-15 align-middle" >
-        <span className="text-xl"> Ajouter un chantier </span>
-        <CirclePlus onClick={() => console.log("test")}/> 
-      </div>
+      <section className='flex gap-2 my-8 align-middle'>
+        <AddSite/>
+      </section>
 
-        <div className="container mx-auto py-10">
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : error ? (
-            <div>Error: {error.message}</div>
-          ) : (
-            <DataTable
-              data={data || []}
-              columns={columns}
-            />
-          )}
-        </div>
-
-
+      <div className="container mx-auto py-10">
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error: {error.message}</div>
+      ) : (
+        <section>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>#</TableHead>
+                <TableHead>Nom du chantier</TableHead>
+                <TableHead>Adresse</TableHead>
+                <TableHead>Date de début</TableHead>
+                <TableHead>Date de fin</TableHead>
+                <TableHead>Compétences requises</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.map((site, key) => (
+                <TableRow key={key}>
+                  <TableCell className="font-medium">{site.id}</TableCell>
+                  <TableCell>{site.name}</TableCell>
+                  <TableCell>{site.address}</TableCell>
+                  <TableCell>{site.startDate}</TableCell>
+                  <TableCell>{site.endDate}</TableCell>     
+                  <TableCell>
+                    {Array.isArray(site.skills) && site.skills.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {site.skills.map(skill => (
+                          <span 
+                            key={skill.id} 
+                            
+                          >
+                            {skill.label}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <span className="text-gray-500 text-xs">Aucune compétence</span>
+                    )}
+                  </TableCell>
+                  <TableCell className="space-x-2">
+                    <UpdateSite currentSite={site} />
+                    <DeleteSite siteId={site.id} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </section>
+      )}
+    </div>
     </>
   );
 }
