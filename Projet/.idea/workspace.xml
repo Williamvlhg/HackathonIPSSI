@@ -5,42 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a27fe51-1187-4d9f-8cfb-d148d571df45" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/employe/add-employes.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/employe/delete-employe.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/employe/get-cemploye.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/employe/update-employe.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ui/sonner.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/.prettierrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/jest.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/get-user.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/update-user.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/src/context.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/src/routes/get/role.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/src/singleton.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/app-sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/app-sidebar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/login-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/login-form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/ui/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ui/sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/chantier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/chantier.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/employes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/employes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/types/site.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/types/site.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/types/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/types/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/routes/delete/skill.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/delete/skill.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/routes/get/site.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/get/site.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/routes/get/skill.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/get/skill.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/routes/get/worker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/get/worker.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/serveur/src/routes/post/login.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/post/login.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/routes/post/register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/post/register.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/routes/put/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/put/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +102,7 @@
       <workItem from="1741011457699" duration="2987000" />
       <workItem from="1741014507617" duration="3762000" />
       <workItem from="1741076017320" duration="22616000" />
-      <workItem from="1741104070679" duration="6729000" />
+      <workItem from="1741104070679" duration="10128000" />
     </task>
     <servers />
   </component>

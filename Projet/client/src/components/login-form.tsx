@@ -23,7 +23,7 @@ const formSchema = z.object({
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   const { isPending, mutate, data } = useMutation<
-    { success: boolean; message: string },
+    { success: boolean; message: string, info: string },
     Error,
     z.infer<typeof formSchema>
   >({
