@@ -25,6 +25,7 @@ import PutSkillRouter from './routes/put/skill'
 import PutUserRouter from './routes/put/user'
 import PutWorkerRouter from './routes/put/worker'
 import PutSiteRouter from './routes/put/site'
+import PutMissionRouter from './routes/put/mission'
 
 dotenv.config()
 
@@ -61,6 +62,7 @@ app.use('/skill', PutSkillRouter)
 app.use('/user', PutUserRouter)
 app.use('/worker', PutWorkerRouter)
 app.use('/site', PutSiteRouter)
+app.use('/mission', PutMissionRouter)
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`)
