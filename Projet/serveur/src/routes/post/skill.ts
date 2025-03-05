@@ -9,7 +9,7 @@ router.post("/create", async (req: Request, res: Response) => {
   const { success, data: input } = skillSchema.safeParse(req.body);
 
   if (!success) {
-    return res.status(400).json({ success: false, message: "Invalid data" });
+    return res.status(400).json({ success: false, message: "Données invalides" });
   }
 
   const skill = await prisma.skill.create({

@@ -28,7 +28,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 
     res.status(skill ? 200 : 404).json({
       success: !!skill,
-      data: skill ? skill : "unknow skill",
+      data: skill ? skill : "Compétence inconnue",
     });
   } catch (e: any) {
     const idValid = z.coerce.number().int().safeParse(req.params.id);
@@ -36,7 +36,7 @@ router.get("/:id", async (req: Request, res: Response) => {
     if (idValid) {
       res.status(400).json({
         success: false,
-        message: "invalid id",
+        message: "ID Inconnu",
       });
     }
   }

@@ -12,7 +12,7 @@ router.post('/create', async (req: Request, res: Response) => {
   console.log(input)
 
   if (!success) {
-    return res.status(400).json({ success: false, message: 'Invalid data' })
+    return res.status(400).json({ success: false, message: "Données invalides" });
   }
   try {
     // Vérification des workers
@@ -69,8 +69,13 @@ router.post('/create', async (req: Request, res: Response) => {
       console.error(error)
       return res.status(400).json({
         success: false,
+<<<<<<< HEAD
         message: error,
       })
+=======
+        message: "Données invalides",
+      });
+>>>>>>> df8b98702bf360d058ef2a3a3ee86fb38c83d482
     }
   }
 })
