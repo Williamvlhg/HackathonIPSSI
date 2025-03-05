@@ -7,11 +7,13 @@ import GetSkillRouter from './routes/get/skill'
 import GetUserRouter from './routes/get/user'
 import GetSiteRouter from './routes/get/site'
 import GetRoleRouter from './routes/get/role'
+import GetMissionRouter from './routes/get/mission'
 
 import DeleteWorkerRouter from './routes/delete/worker'
 import DeleteSkillRouter from './routes/delete/skill'
 import DeleteUserRouter from './routes/delete/user'
 import DeleteSiteRouter from './routes/delete/site'
+import DeleteMissionRouter from './routes/delete/mission'
 
 import PostLoginRouter from './routes/post/login'
 import PostRegisterRouter from './routes/post/register'
@@ -37,12 +39,14 @@ app.use('/skill', GetSkillRouter)
 app.use('/user', GetUserRouter)
 app.use('/site', GetSiteRouter)
 app.use('/role', GetRoleRouter)
+app.use('/mission', GetMissionRouter)
 
 // ROUTES DELETE
 app.use('/worker', DeleteWorkerRouter)
 app.use('/skill', DeleteSkillRouter)
 app.use('/user', DeleteUserRouter)
 app.use('/site', DeleteSiteRouter)
+app.use('/mission', DeleteMissionRouter)
 
 // ROUTES POST
 app.use('/login', PostLoginRouter)
