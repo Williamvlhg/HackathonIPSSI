@@ -17,10 +17,6 @@ import UpdateSite from '@/features/chantiers/update/update-chantier'
 import { Site } from '@/types/site'
 import { useQuery } from '@tanstack/react-query'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-/*import {Form, FormControl, FormDescription, FormItem, FormLabel} from "@/components/ui/form.tsx";
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {zodResolver} from "@hookform/resolvers/zod";*/
 
 const queryClient = new QueryClient()
 
