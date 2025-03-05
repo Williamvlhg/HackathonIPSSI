@@ -1,28 +1,44 @@
+import { Button, buttonVariants } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { updateEmploye } from '@/services/employe.service'
 import { Role } from '@/types/role'
+import { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { FC, JSX, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { FC, JSX, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
-import { Button, buttonVariants } from '../ui/button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
-import { Input } from '../ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
-import { getEmployes } from './get-cemploye'
+import { updateEmployeSchema } from './update-employe.schema'
 
-const formSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.string().email(),
-  password: z.string(),
-  roleId: z.string(),
-})
+interface IUpdateEmployeProps {
+  currentUser: User
+}
 
-const AddEmploye: FC = (): JSX.Element => {
+const UpdateEmploye: FC<IUpdateEmployeProps> = ({ currentUser }): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false)
-  const { refetch } = getEmployes()
+  const [isPending, startTransition] = useTransition()
 
   const { data } = useQuery<{ success: boolean; data: Role[] }>({
     queryKey: ['getRoles'],
@@ -32,64 +48,31 @@ const AddEmploye: FC = (): JSX.Element => {
     },
   })
 
-  const { mutate } = useMutation<
-    { success: boolean; message: string },
-    Error,
-    z.infer<typeof formSchema>
-  >({
-    mutationKey: ['register'],
-    mutationFn: async (values: z.infer<typeof formSchema>) => {
-      const res = await fetch('http://localhost:8080/register', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          password: values.password,
-          roleId: Number(values.roleId),
-        }),
-      })
+  const { mutate } = updateEmploye(currentUser.id)
 
-      form.reset()
-      refetch()
-
-      return await res.json()
-    },
-
-    onError: () => {
-      toast('Une erreur est survenue')
-    },
-
-    onSuccess: () => {
-      setIsOpen(false)
-      toast('Utilisateur créé')
-    },
-  })
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof updateEmployeSchema>>({
+    resolver: zodResolver(updateEmployeSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      roleId: '',
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      email: currentUser.email,
+      roleId: currentUser.role.id.toString(),
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate(values)
+  function onSubmit(values: z.infer<typeof updateEmployeSchema>) {
+    startTransition(() => {
+      mutate(values)
+      setIsOpen(false)
+    })
   }
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger className={buttonVariants()}>Ajouter un employé</DialogTrigger>
+      <DialogTrigger className={buttonVariants()}>Modifier</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Nouvel employé</DialogTitle>
+          <DialogTitle>Modification de {currentUser.firstName}</DialogTitle>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 mt-8 w-full'>
@@ -138,20 +121,6 @@ const AddEmploye: FC = (): JSX.Element => {
 
               <FormField
                 control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Mot de passe</FormLabel>
-                    <FormControl>
-                      <Input placeholder='********' {...field} type='password' />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
                 name='roleId'
                 render={({ field }) => (
                   <FormItem className='w-full'>
@@ -181,7 +150,7 @@ const AddEmploye: FC = (): JSX.Element => {
               />
 
               <Button type='submit' className='w-full'>
-                Enregistré
+                {isPending ? 'loading' : 'Enregistré'}
               </Button>
             </form>
           </Form>
@@ -191,4 +160,4 @@ const AddEmploye: FC = (): JSX.Element => {
   )
 }
 
-export default AddEmploye
+export default UpdateEmploye
