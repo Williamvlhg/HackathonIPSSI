@@ -12,9 +12,11 @@ import { cn } from '@/lib/utils'
 
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
+import { useCookies } from 'react-cookie'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -22,8 +24,16 @@ const formSchema = z.object({
 })
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
+  // @ts-expect-error - On utilise pas cookie mais on est obligé de le définir car c'est un tuple
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [cookie, setCookie] = useCookies(['user'])
+
   const { isPending, mutate, data } = useMutation<
-    { success: boolean; message: string },
+    {
+      success: boolean
+      message: string
+      user: { id: number; email: string; role: { label: string } }
+    },
     Error,
     z.infer<typeof formSchema>
   >({
@@ -37,7 +47,21 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
         body: JSON.stringify(values),
       })
 
+      if (!res.ok) {
+        throw new Error('Erreur de connexion')
+      }
+
       return await res.json()
+    },
+
+    onError: () => {
+      toast('Erreur de connexion')
+    },
+
+    onSuccess: (data) => {
+      setCookie('user', JSON.stringify(data.user))
+      document.location.href = '/'
+      toast('Vous êtes connecté')
     },
   })
 
