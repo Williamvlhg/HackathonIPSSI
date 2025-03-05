@@ -13,19 +13,24 @@ router.post("/create", async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, message: "Invalid data" });
   }
   try {
-    const site = await prisma.site.create({
+	  const site = await prisma.site.create({
       data: {
         address: input.address,
         name: input.name,
         startDate: input.startDate,
         endDate: input.endDate,
+	  	workers: {
+			connect: input.workers.map((worker) => ({
+				id: Number(worker.id)
+			}))
+	  	},
         skills: {
           connect: input.skills.map((skill) => ({
             id: skill.id,
             label: skill.label,
           })),
         },
-      },
+      }
     });
 
     if (!site) {
