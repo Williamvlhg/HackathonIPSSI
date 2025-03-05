@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/select'
 import { addSite } from '@/services/chantier.service'
 import { Skill } from '@/types/skill'
+import { WorkerType } from '@/types/worker'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
 import { FC, JSX, useState, useTransition } from 'react'
@@ -44,6 +45,14 @@ const AddSite: FC = (): JSX.Element => {
     },
   })
 
+  const { data: workersData } = useQuery<{ success: boolean; data: WorkerType[] }>({
+    queryKey: ['getWorker'],
+    queryFn: async () => {
+      const res = await fetch('http://localhost:8080/worker/all');
+      return await res.json();
+    },
+  })
+  
   const form = useForm<z.infer<typeof addSiteSchema>>({
     resolver: zodResolver(addSiteSchema),
     defaultValues: {
@@ -52,6 +61,7 @@ const AddSite: FC = (): JSX.Element => {
       startDate: '',
       endDate: '',
       skills: [],
+      workers: [],
     },
   })
 
@@ -181,7 +191,66 @@ const AddSite: FC = (): JSX.Element => {
                 )}
                 />
 
+                <FormField
+                control={form.control}
+                name="workers"
+                render={({ field }) => (
+                    <FormItem className="w-full">
+                    <FormLabel>Employés</FormLabel>
+                    <FormControl>
+                        <Select
+                        onValueChange={(selectedWorkerId) => {
+                            const selectedWorker = workersData?.data.find(worker => String(worker.id) === selectedWorkerId);
+                            if (!selectedWorker) return;
 
+                            const alreadySelected = field.value.some(worker => worker.id === selectedWorker.id);
+
+                            if (alreadySelected) {
+                            field.onChange(field.value.filter(worker => worker.id !== selectedWorker.id));
+                            } else {
+                            field.onChange([...field.value, { id: selectedWorker.id }]);
+                            }
+                        }}
+                        >
+                            
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Choisir un ou plusieurs employés" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            {workersData?.data.map(worker => (
+                            <SelectItem key={worker.id} value={String(worker.id)}>
+                                Worker #{worker.id} - {worker.skills.length > 0 ? worker.skills[0].label : "Aucune compétence"}
+                            </SelectItem>
+                            ))}
+                        </SelectContent>
+                        </Select>
+                    </FormControl>
+
+                    <div className="mt-2 flex flex-wrap gap-2">
+                        {field.value.map(worker => {
+                        const workerInfo = workersData?.data.find(w => w.id === worker.id);
+                        return (
+                            workerInfo && (
+                            <div key={worker.id} className="bg-blue-200 px-2 py-1 rounded flex items-center">
+                                Worker #{worker.id} - {workerInfo.skills.length > 0 ? workerInfo.skills[0].label : "Aucune compétence"}
+                                <button
+                                type="button"
+                                className="ml-2 text-red-500"
+                                onClick={() => field.onChange(field.value.filter(w => w.id !== worker.id))}
+                                >
+                                ✕
+                                </button>
+                            </div>
+                            )
+                        );
+                        })}
+                    </div>
+
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
 
               <Button type='submit' className='w-full'>
                 {isPending ? 'loading' : 'Ajouter'}
