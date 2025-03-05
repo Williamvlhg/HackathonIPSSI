@@ -12,6 +12,7 @@ router.get('/all', async (req: Request, res: Response) => {
         include: {
           workers: {
             include: {
+              skills: true,
               user: {
                 select: {
                   firstName: true,
