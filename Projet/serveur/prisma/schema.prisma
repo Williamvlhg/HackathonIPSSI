@@ -39,10 +39,10 @@ model Worker {
   user User[]
 
   /**
-   * Un worker à un ou plusieurs skills
-   * relation one to many
+   * Plusieurs worker à un ou plusieurs même skills
+   * relation many to many
    */
-  skills Skill[]
+  skills Skill[] @relation("WorkerSkills")
 
   // le worker peut travailler sur plusieurs sites
   sites Site[] @relation("WorkerSites")
@@ -53,10 +53,9 @@ model Skill {
   label String
 
   // Relation many-to-one avec Worker : un Skill peut être associé à un Worker
-  worker   Worker? @relation(fields: [workerId], references: [id])
-  workerId Int?
+  workers Worker[] @relation("WorkerSkills")
 
-  skills Site[] @relation("WorkerSkills")
+  skills Site[] @relation("WorkerSites")
 }
 
 model Site {
@@ -71,5 +70,5 @@ model Site {
   workers Worker[] @relation("WorkerSites")
 
   // plusieurs skills
-  skills Skill[] @relation("WorkerSkills")
+  skills Skill[] @relation("WorkerSites")
 }
