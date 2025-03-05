@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
-export const registerSchema = z.object({
+export const addEmployeSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
-  email: z.string(),
+  email: z.string().email(),
   password: z.string(),
-  roleId: z.number(),
+  roleId: z.string(),
 })

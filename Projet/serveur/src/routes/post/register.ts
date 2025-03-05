@@ -1,35 +1,55 @@
-import { Router, Request, Response } from "express";
-import { registerSchema } from "../../types/register.schema";
-import { prisma } from "../../lib/prisma";
+import { Router, Request, Response } from 'express'
+import { registerSchema } from '../../types/register.schema'
+import { prisma } from '../../lib/prisma'
 
-const router = Router();
+const router = Router()
 
 // @ts-expect-error - overload
-router.post("/", async (req: Request, res: Response) => {
-  const { success, data: input } = registerSchema.safeParse(req.body);
+router.post('/', async (req: Request, res: Response) => {
+  const { success, data: input } = registerSchema.safeParse(req.body)
 
   if (!success || !input) {
-    return res.status(400).json({ success: false, message: "Invalid data" });
+    return res.status(400).json({ success: false, message: 'Invalid data' })
   }
 
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany()
 
-  const isUserExist = users.some((user) => user.email === input.email);
+  const isUserExist = users.some((user) => user.email === input.email)
   if (isUserExist) {
-    return res.status(400).json({ error: true, message: "User already exist" });
+    return res.status(400).json({ success: false, message: "L'utilisateur existe déjà" })
   }
 
   const user = await prisma.user.create({
-    data: input,
-  });
+    data: {
+      email: input.email,
+      firstName: input.firstName,
+      lastName: input.lastName,
+      password: input.password,
+      roleId: input.roleId,
+    },
+    select: {
+      id: true,
+      role: true,
+    },
+  })
 
-  if (!user) {
-    return res
-      .status(400)
-      .json({ error: true, message: "Error while creating user" });
+  if (user.role.label === 'worker') {
+    await prisma.worker.create({
+      data: {
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+      },
+    })
   }
 
-  res.status(200).json({ error: false, message: "Vous avez créer un compte" });
-});
+  if (!user) {
+    return res.status(400).json({ success: false, message: 'Une erreur est survenue' })
+  }
 
-export default router;
+  res.status(200).json({ success: true, message: 'Vous avez créer un compte' })
+})
+
+export default router

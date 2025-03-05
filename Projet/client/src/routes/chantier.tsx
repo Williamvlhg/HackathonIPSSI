@@ -89,37 +89,37 @@ function RouteComponent() {
   console.log(data);
   return (
     <>
-      <div className="flex space-x-4 mt-8 w-full">
-        <Card className="p-6 border rounded-lg space-y-2">
+      <div className="flex space-x-5 mt-5 w-full">
+        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
           <CardHeader>
             <CardTitle>
-              <FolderSync size={48}/>
+              <FolderSync size={50}/>
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-2xl">5</CardContent>
-          <CardDescription>Nombre de chantier (en cours)</CardDescription>
+          <CardContent className="text-3xl">5</CardContent>
+          <CardDescription className="px-6">Nombre de chantier (en cours)</CardDescription>
         </Card>
-        <Card className="p-6 border rounded-lg space-y-2">
+        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
           <CardHeader>
             <CardTitle>
-              <PersonStanding size={48} />
+              <PersonStanding size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-2xl">37</CardContent>
-          <CardDescription>Nombre d'employés affectés</CardDescription>
+          <CardContent className="text-3xl">37</CardContent>
+          <CardDescription className="px-6">Nombre d'employés affectés</CardDescription>
         </Card>
-        <Card className="p-6 border rounded-lg space-y-2">
+        <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
           <CardHeader>
             <CardTitle>
-              <FolderClosed size={48}/>
+              <FolderClosed size={50}/>
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-2xl">67</CardContent>
-          <CardDescription>Nombre totale de chantier</CardDescription>
+          <CardContent className="text-3xl">67</CardContent>
+          <CardDescription className="px-6">Nombre totale de chantier</CardDescription>
         </Card>
       </div>
-      <div className="flex gap-2 mt-20 align-middle" >
-        <span> Ajouter un chantier </span>
+      <div className="flex gap-2 mt-15 align-middle" >
+        <span className="text-xl"> Ajouter un chantier </span>
         <CirclePlus onClick={() => console.log("test")}/> 
       </div>
 
