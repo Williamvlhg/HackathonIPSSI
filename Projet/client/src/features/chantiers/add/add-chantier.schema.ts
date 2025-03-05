@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 export const addSiteSchema = z.object({
   name: z.string(),
@@ -6,5 +6,5 @@ export const addSiteSchema = z.object({
   startDate: z.string(),
   endDate: z.string(),
   skills: z.array(z.object({ id: z.number(), label: z.string() })),
-  workers: z.array(z.object({ id: z.number() }))
-});
+  workers: z.array(z.object({ id: z.number() })),
+})

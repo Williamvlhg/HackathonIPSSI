@@ -243,7 +243,7 @@ const AddSite: FC = (): JSX.Element => {
                           <SelectContent>
                             {filteredWorkers.map((worker) => (
                               <SelectItem key={worker.id} value={String(worker.id)}>
-                                Worker #{worker.id} -{' '}
+                                {worker.user[0].firstName} #{worker.id} -{' '}
                                 {worker.skills.length > 0
                                   ? worker.skills.map((s) => s.label).join(', ')
                                   : 'Aucune compétence'}
