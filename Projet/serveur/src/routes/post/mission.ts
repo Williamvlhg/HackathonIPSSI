@@ -10,7 +10,7 @@ router.post("/create", async (req: Request, res: Response) => {
 	const { success, data: input } = missionSchema.safeParse(req.body);
 
 	if (!success) {
-		return res.status(400).json({ success: false, message: "Invalid data" });
+		return res.status(400).json({ success: false, message: "Données invalides" });
 	}
 	try {
 		const mission = await prisma.mission.create({
@@ -39,7 +39,7 @@ router.post("/create", async (req: Request, res: Response) => {
 			console.error(error);
 			return res.status(400).json({
 				success: false,
-				message: "Invalid data",
+				message: "Données invalides",
 			});
 		}
 	}

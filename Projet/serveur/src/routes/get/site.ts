@@ -50,7 +50,7 @@ router.get("/:id", async (req: Request, res: Response) => {
     if (idValid) {
       res.status(400).json({
         success: false,
-        message: "invalid id",
+        message: "ID Inconnu",
       });
     }
   }

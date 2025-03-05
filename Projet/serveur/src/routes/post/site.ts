@@ -10,7 +10,7 @@ router.post("/create", async (req: Request, res: Response) => {
   const { success, data: input } = siteSchema.safeParse(req.body);
 
   if (!success) {
-    return res.status(400).json({ success: false, message: "Invalid data" });
+    return res.status(400).json({ success: false, message: "Données invalides" });
   }
   try {
 	  const site = await prisma.site.create({
@@ -49,7 +49,7 @@ router.post("/create", async (req: Request, res: Response) => {
       console.error(error);
       return res.status(400).json({
         success: false,
-        message: "Invalid data",
+        message: "Données invalides",
       });
     }
   }

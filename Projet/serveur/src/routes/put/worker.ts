@@ -17,7 +17,7 @@ router.put('/:id', async (req: Request, res: Response) => {
     if (!currentWorker) {
       return res.status(404).json({
         success: false,
-        message: 'Worker not found',
+        message: 'Ouvrier inconnu',
       })
     }
 
@@ -49,7 +49,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 	  if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025') {
 		  return res.status(404).json({
 			  success: false,
-			  message: 'invalid id'
+			  message: 'ID Inconnu'
 		  });
 	  }
 
