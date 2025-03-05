@@ -205,59 +205,71 @@ const UpdateSite: FC<IUpdateSiteProps> = ({ currentSite }): JSX.Element => {
             />
         
 
-        <FormField
-  control={form.control}
-  name="workers"
-  render={({ field }) => (
-    <FormItem className="w-full">
-      <FormLabel>Employés</FormLabel>
-      <FormControl>
-        <Select
-          onValueChange={(selectedWorkerId) => {
-            const selectedWorker = workersData?.data.find(worker => String(worker.id) === selectedWorkerId);
-            if (!selectedWorker) return;
+                <FormField
+                control={form.control}
+                name="workers"
+                render={({ field }) => {
+                    const selectedSkillIds = form.watch("skills")?.map(skill => skill.id) || [];
+                    const filteredWorkers = workersData?.data.filter(worker =>
+                    worker.skills.some(skill => selectedSkillIds.includes(skill.id))
+                    ) || [];
 
-            const alreadySelected = field.value.some(worker => worker.id === selectedWorker.id);
+                    return (
+                    <FormItem className="w-full">
+                        <FormLabel>Employés</FormLabel>
+                        <FormControl>
+                        <Select
+                            onValueChange={(selectedWorkerId) => {
+                            const selectedWorker = filteredWorkers.find(worker => String(worker.id) === selectedWorkerId);
+                            if (!selectedWorker) return;
 
-            if (alreadySelected) {
-              field.onChange(field.value.filter(worker => worker.id !== selectedWorker.id));
-            } else {
-              field.onChange([...field.value, selectedWorker]);
-            }
-          }}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Choisir un ou plusieurs employés" />
-          </SelectTrigger>
-          <SelectContent>
-            {workersData?.data.map(worker => (
-              <SelectItem key={worker.id} value={String(worker.id)}>
-                Worker #{worker.id}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </FormControl>
-      
-      <div className="mt-2 flex flex-wrap gap-2">
-        {field.value.map(worker => (
-          <div key={worker.id} className="bg-gray-200 px-2 py-1 rounded flex items-center">
-            Worker #{worker.id}
-            <button
-              type="button"
-              className="ml-2 text-red-500"
-              onClick={() => field.onChange(field.value.filter(w => w.id !== worker.id))}
-            >
-            ✕
-            </button>
-          </div>
-        ))}
-      </div>
+                            const alreadySelected = field.value.some(worker => worker.id === selectedWorker.id);
 
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+                            if (alreadySelected) {
+                                field.onChange(field.value.filter(worker => worker.id !== selectedWorker.id));
+                            } else {
+                                field.onChange([...field.value, selectedWorker]);
+                            }
+                            }}
+                        >
+                            <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Choisir un ou plusieurs employés" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            {filteredWorkers.map(worker => (
+                                <SelectItem key={worker.id} value={String(worker.id)}>
+                                Worker #{worker.id} - {worker.skills.length > 0 ? worker.skills.map(s => s.label).join(", ") : "Aucune compétence"}
+                                </SelectItem>
+                            ))}
+                            </SelectContent>
+                        </Select>
+                        </FormControl>
+
+                        <div className="mt-2 flex flex-wrap gap-2">
+                        {field.value.map(worker => {
+                            const workerInfo = workersData?.data.find(w => w.id === worker.id);
+                            return (
+                            workerInfo && (
+                                <div key={worker.id} className="bg-gray-200 px-2 py-1 rounded flex items-center">
+                                Worker #{worker.id} - {workerInfo.skills.length > 0 ? workerInfo.skills.map(s => s.label).join(", ") : "Aucune compétence"}
+                                <button
+                                    type="button"
+                                    className="ml-2 text-red-500"
+                                    onClick={() => field.onChange(field.value.filter(w => w.id !== worker.id))}
+                                >
+                                    ✕
+                                </button>
+                                </div>
+                            )
+                            );
+                        })}
+                        </div>
+
+                        <FormMessage />
+                    </FormItem>
+                    );
+                }}
+                />
 
               <Button type='submit' className='w-full'>
                 {isPending ? 'loading' : 'Enregistré'}
