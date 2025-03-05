@@ -1,4 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -8,19 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { FolderSync } from 'lucide-react'
-import { FolderClosed } from 'lucide-react'
-import { PersonStanding } from 'lucide-react'
 import AddSite from '@/features/chantiers/add/add-chantiers'
 import DeleteSite from '@/features/chantiers/delete-chantier'
 import UpdateSite from '@/features/chantiers/update/update-chantier'
-import { Site } from '@/types/site'
-import { useQuery } from '@tanstack/react-query'
+import { getSites } from '@/services/chantier.service'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-/*import {Form, FormControl, FormDescription, FormItem, FormLabel} from "@/components/ui/form.tsx";
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {zodResolver} from "@hookform/resolvers/zod";*/
+import { createFileRoute } from '@tanstack/react-router'
+import { FolderClosed, FolderSync, PersonStanding } from 'lucide-react'
 
 const queryClient = new QueryClient()
 
@@ -33,18 +26,8 @@ export const Route = createFileRoute('/chantier')({
 })
 
 function RouteComponent() {
-  const { data, error, isLoading } = useQuery<Site[]>({
-    queryKey: ['sites'],
-    queryFn: async () => {
-      const response = await fetch('http://localhost:8080/site/all')
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      const result = await response.json()
-      return result.data
-    },
-  })
-  console.log(data)
+  const { data, isLoading, error } = getSites()
+
   return (
     <>
       <div className='flex space-x-5 mt-5 w-full'>
@@ -96,11 +79,12 @@ function RouteComponent() {
                   <TableHead>Date de début</TableHead>
                   <TableHead>Date de fin</TableHead>
                   <TableHead>Compétences requises</TableHead>
+                  <TableHead>Employés</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data?.map((site, key) => (
+                {data?.data.map((site, key) => (
                   <TableRow key={key}>
                     <TableCell className='font-medium'>{site.id}</TableCell>
                     <TableCell>{site.name}</TableCell>
@@ -116,6 +100,20 @@ function RouteComponent() {
                         </div>
                       ) : (
                         <span className='text-gray-500 text-xs'>Aucune compétence</span>
+                      )}
+                    </TableCell>
+
+                    <TableCell>
+                      {Array.isArray(site.workers) && site.workers.length > 0 ? (
+                        <div>
+                          {site.workers.map((worker) => (
+                            <p key={worker.id}>
+                              {worker.user[0].firstName} - {worker.user[0].lastName}
+                            </p>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className='text-gray-500 text-xs'>Aucun travailleur</span>
                       )}
                     </TableCell>
                     <TableCell className='space-x-2'>

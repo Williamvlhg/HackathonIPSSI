@@ -14,7 +14,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
 		res.status(mission ? 200 : 404).json({
 			success: !!mission,
-			data: mission ? mission : 'invalid id'
+			data: mission ? mission : 'ID inconnu'
 		})
 	} catch (e: any) {
 		res.status(500).json({
