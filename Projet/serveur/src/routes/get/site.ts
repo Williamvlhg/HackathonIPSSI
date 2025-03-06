@@ -10,7 +10,11 @@ router.get("/all", async (req: Request, res: Response) => {
       success: true,
       data: await prisma.site.findMany({
         include: {
-			workers: true,
+			workers: {
+				include: {
+					user: true
+				}
+			},
           skills: {
             select: {
               id: true,
