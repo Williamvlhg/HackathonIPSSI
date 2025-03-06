@@ -1,41 +1,69 @@
-import { Router, Request, Response } from "express";
-import {prisma} from "../../lib/prisma";
-import {z} from "zod";
-import {PrismaClientKnownRequestError} from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { Request, Response, Router } from 'express'
+import { prisma } from '../../lib/prisma'
+import { z } from 'zod'
+import { skillSchema } from '../../types/skill.schema'
 
-const router = Router();
+const router = Router()
 
 // @ts-ignore
 router.put('/:id', async (req: Request, res: Response) => {
-    try {
-        const skill = await prisma.skill.update({
-            where: {
-                id: Number(req.params.id)
-            },
-            data: {
-                label: req.body.label
-            }
-        })
+  const idValid = z.coerce.number().int().safeParse(req.params.id)
 
-        res.status(200).json({
-            success: true,
-            data: skill
-        })
+  if (!idValid.success) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid ID',
+    })
+  }
 
+  const id = idValid.data
 
-    } catch (e: any) {
-		if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025') {
-			return res.status(404).json({
-				success: false,
-				message: 'ID Inconnu'
-			});
-		}
+  const input = skillSchema.safeParse(req.body)
 
-		res.status(500).json({
-			success: false,
-			message: e.message
-		});
+  if (!input.success) {
+    return res.status(400).json({
+      success: false,
+      message: 'données invalide',
+    })
+  }
+
+  try {
+    const existingSkill = await prisma.skill.findUnique({
+      where: { id },
+    })
+
+    if (!existingSkill) {
+      return res.status(400).json({
+        success: false,
+        message: 'Compétence non trouvée',
+      })
     }
+
+    const skill = await prisma.skill.update({
+      where: {
+        id,
+      },
+      data: input.data,
+    })
+
+    res.status(200).json({
+      success: true,
+      data: skill,
+    })
+  } catch (e: any) {
+    if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025') {
+      return res.status(404).json({
+        success: false,
+        message: 'ID invalide',
+      })
+    }
+
+    res.status(500).json({
+      success: false,
+      message: e.message,
+    })
+  }
 })
 
-export default router;
+export default router
