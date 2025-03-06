@@ -23,7 +23,7 @@ async function createUser(user: CreateUser, ctx: Context) {
   })
 }
 
-test('Normalement on crée un nouvel utilisateur', async () => {
+test('Normalement on créé un nouvel utilisateur', async () => {
   const user = {
     id: 1,
     firstName: 'John',
