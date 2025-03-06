@@ -45,21 +45,21 @@ model Worker {
   skills Skill[] @relation("WorkerSkills")
 
   // le worker peut travailler sur plusieurs sites
-  sites Site[] @relation("WorkerSites")
+  sites Site[]
 
   missions Mission[]
 }
 
 model Mission {
-  id Int @id @default(autoincrement())
-  title String
+  id        Int    @id @default(autoincrement())
+  title     String
   startDate String
-  endDate String
+  endDate   String
 
-  worker Worker @relation(fields: [workerId], references: [id])
+  worker   Worker @relation(fields: [workerId], references: [id])
   workerId Int
 
-  site Site @relation(fields: [siteId], references: [id])
+  site   Site @relation(fields: [siteId], references: [id])
   siteId Int
 }
 
@@ -82,7 +82,7 @@ model Site {
   endDate   String
 
   // plusieurs workers sur un site
-  workers Worker[] @relation("WorkerSites")
+  workers Worker[]
 
   // plusieurs skills
   skills Skill[] @relation("WorkerSites")

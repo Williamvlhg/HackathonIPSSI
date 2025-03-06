@@ -1,17 +1,17 @@
-import { Router, Request, Response } from "express";
-import { prisma } from "../../lib/prisma";
-import { z } from "zod";
+import { Router, Request, Response } from 'express'
+import { prisma } from '../../lib/prisma'
+import { z } from 'zod'
 
-const router = Router();
+const router = Router()
 
-router.get("/all", async (req: Request, res: Response) => {
+router.get('/all', async (req: Request, res: Response) => {
   try {
     res.status(200).json({
       success: true,
       data: await prisma.worker.findMany({
         include: {
           skills: true,
-		  missions: true,
+          missions: true,
           user: {
             select: {
               id: true,
@@ -20,19 +20,19 @@ router.get("/all", async (req: Request, res: Response) => {
               email: true,
               role: true,
             },
-          }
+          },
         },
       }),
-    });
+    })
   } catch (e: any) {
     res.status(500).json({
       success: false,
       message: e.message,
-    });
+    })
   }
-});
+})
 
-router.get("/:id", async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response) => {
   try {
     const worker = await prisma.worker.findUnique({
       where: {
@@ -40,7 +40,7 @@ router.get("/:id", async (req: Request, res: Response) => {
       },
       include: {
         skills: true,
-	    missions: true,
+        missions: true,
         user: {
           select: {
             id: true,
@@ -51,22 +51,22 @@ router.get("/:id", async (req: Request, res: Response) => {
           },
         },
       },
-    });
+    })
 
     res.status(worker ? 200 : 404).json({
       success: !!worker,
-      data: worker ? worker : "Ouvrier inconnu",
-    });
+      data: worker ? worker : 'Ouvrier inconnu',
+    })
   } catch (e: any) {
-    const idValid = z.coerce.number().int().safeParse(req.params.id);
+    const idValid = z.coerce.number().int().safeParse(req.params.id)
 
     if (idValid) {
       res.status(400).json({
         success: false,
-        message: "ID Inconnu",
-      });
+        message: 'ID Inconnu',
+      })
     }
   }
-});
+})
 
-export default router;
+export default router

@@ -12,15 +12,15 @@ import { z } from 'zod'
  * @returns Site[]
  */
 export function getSites() {
-  const { data, isLoading, refetch } = useQuery<{ data: Array<Site> }>({
-    queryKey: ['site'],
+  const { data, isLoading, refetch, error } = useQuery<{ data: Array<Site> }>({
+    queryKey: ['sites'],
     queryFn: async () => {
       const res = await fetch('http://localhost:8080/site/all')
       return await res.json()
     },
   })
 
-  return { data, isLoading, refetch }
+  return { data, isLoading, refetch, error }
 }
 
 /**
@@ -84,14 +84,19 @@ export function updateSite(siteId: number) {
           startDate: values.startDate,
           endDate: values.endDate,
           skills: values.skills,
+          workers: values.workers,
         }),
       })
+
+      if (!res.ok) {
+        throw new Error('ok')
+      }
 
       return await res.json()
     },
 
     onError: () => {
-      toast('Une erreur est survenue')
+      toast('erreur')
     },
 
     onSuccess: () => {
@@ -111,7 +116,7 @@ export function addSite() {
     Error,
     z.infer<typeof addSiteSchema>
   >({
-    mutationKey: ['site'],
+    mutationKey: ['addSite'],
     mutationFn: async (values: z.infer<typeof addSiteSchema>) => {
       const res = await fetch('http://localhost:8080/site/create', {
         method: 'POST',
@@ -124,14 +129,12 @@ export function addSite() {
           startDate: values.startDate,
           endDate: values.endDate,
           skills: values.skills,
+          workers: values.workers,
         }),
       })
 
       refetch()
-
-      const data = await res.json()
-      console.log(data)
-      return data
+      return await res.json()
     },
 
     onError: () => {

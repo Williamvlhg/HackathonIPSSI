@@ -6,8 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="e8012120-fe6a-4e92-ae60-d98b3a1ea512" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/chantiers/add/add-chantier.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/chantiers/add/add-chantier.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/chantiers/add/add-chantiers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/chantiers/add/add-chantiers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/chantiers/update/update-chantier.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/chantiers/update/update-chantier.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/chantiers/update/update-chantier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/chantiers/update/update-chantier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/__root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/__root.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/calendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/calendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/chantier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/chantier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/services/chantier.service.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/chantier.service.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/types/worker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/types/worker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/serveur/src/routes/get/site.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/get/site.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/src/routes/get/worker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/get/worker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/src/routes/post/site.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/post/site.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/src/types/site.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/types/site.schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +60,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "hamid2",
+    "git-widget-placeholder": "Merging hamid2",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -72,7 +85,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741248925378</updated>
-      <workItem from="1741248926526" duration="717000" />
+      <workItem from="1741248926526" duration="918000" />
     </task>
     <servers />
   </component>
