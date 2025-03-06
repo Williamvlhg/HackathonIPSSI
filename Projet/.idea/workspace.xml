@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8012120-fe6a-4e92-ae60-d98b3a1ea512" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/delete-mission.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/delete-user.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/get-mission.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/routes/get/site.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/get/site.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/routes/put/site.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/put/site.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/src/__tests__/get-user.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/__tests__/get-user.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +18,13 @@
   </component>
   <component name="ComposerSettings">
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -46,16 +55,65 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Jest.Normalement on créé une nouvelle mission.executor": "Run",
+    "Jest.Normalement on supprime un utilisateur.executor": "Run",
+    "Jest.Normalement on supprime une mission.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "hamid2",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.jest.jest_package": "C:/Users/manso/Documents/Lab/Ecole/HackathonIPSSI/Projet/serveur/node_modules/jest",
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "C:\\Users\\manso\\Documents\\Lab\\Ecole\\HackathonIPSSI\\Projet\\serveur\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="Jest.Normalement on créé une nouvelle mission">
+    <configuration name="Normalement on créé une nouvelle mission" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/serveur/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/serveur" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/get-mission.test.ts" />
+      <test-names>
+        <test-name value="Normalement on créé une nouvelle mission" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Normalement on supprime un utilisateur" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/serveur/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/serveur" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/delete-user.test.ts" />
+      <test-names>
+        <test-name value="Normalement on supprime un utilisateur" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Normalement on supprime une mission" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/serveur/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/serveur" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/delete-mission.test.ts" />
+      <test-names>
+        <test-name value="Normalement on supprime une mission" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.Normalement on créé une nouvelle mission" />
+        <item itemvalue="Jest.Normalement on supprime une mission" />
+        <item itemvalue="Jest.Normalement on supprime un utilisateur" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -72,7 +130,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741248925378</updated>
-      <workItem from="1741248926526" duration="6587000" />
+      <workItem from="1741248926526" duration="13712000" />
     </task>
     <servers />
   </component>
