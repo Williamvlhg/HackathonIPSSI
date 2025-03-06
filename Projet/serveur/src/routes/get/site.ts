@@ -12,21 +12,15 @@ router.get('/all', async (req: Request, res: Response) => {
 				include: {
 					workers: {
 						include: {
-							skills: true,
 							user: {
 								select: {
 									firstName: true,
-									lastName: true,
-								},
-							},
-						},
+									lastName: true
+								}
+							}
+						}
 					},
-					skills: {
-						select: {
-							id: true,
-							label: true,
-						},
-					},
+					skills: true,
 				},
 			}),
 		})
@@ -45,7 +39,16 @@ router.get('/:id', async (req: Request, res: Response) => {
 				id: Number(req.params.id),
 			},
 			include: {
-				workers: true,
+				workers: {
+					include: {
+						user: {
+							select: {
+								firstName: true,
+								lastName: true
+							}
+						}
+					}
+				},
 				skills: true,
 			},
 		})
