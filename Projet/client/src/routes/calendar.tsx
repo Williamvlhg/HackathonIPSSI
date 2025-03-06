@@ -47,7 +47,9 @@ function CalendarComponent() {
         />
         <div className='p-4 flex-auto w-72'>
           <h2 className='text-xl font-semibold mb-2'>
-            {date ? 'Événements du ' + format(date, 'dd/MM/yyyy') : 'Veuillez choisir une date'}
+            {date
+              ? 'Événements du ' + format(date, 'dd/MM/yyyy')
+              : 'Veuillez choisir une date'}
           </h2>
           <hr className='my-4 border-t-2 border-black' />
           {isLoading ? (
@@ -65,7 +67,9 @@ function CalendarComponent() {
                   <hr className='my-6' />
 
                   <section>
-                    <CardTitle className='text-xl'>Informations du chantier</CardTitle>
+                    <CardTitle className='text-xl'>
+                      Informations du chantier
+                    </CardTitle>
                     <article className='mt-4 grid grid-cols-[.1fr_1fr]'>
                       <p>Adresse</p>
                       <p>{site.address}</p>
@@ -79,13 +83,17 @@ function CalendarComponent() {
                   <hr className='my-6' />
 
                   <section>
-                    <CardTitle className='text-xl'>Missions du chantier</CardTitle>
+                    <CardTitle className='text-xl'>
+                      Missions du chantier
+                    </CardTitle>
                   </section>
 
                   <hr className='my-6' />
 
                   <section>
-                    <CardTitle className='text-xl'>Compétences du chantier</CardTitle>
+                    <CardTitle className='text-xl'>
+                      Compétences du chantier
+                    </CardTitle>
                     <article className='mt-4 space-x-1'>
                       {site.skills.map((s, k) => (
                         <Badge key={k}>{s.label}</Badge>
@@ -96,13 +104,19 @@ function CalendarComponent() {
                   <hr className='my-6' />
 
                   <section>
-                    <CardTitle className='text-xl'>Ouvrier sur le chantier</CardTitle>
+                    <CardTitle className='text-xl'>
+                      Ouvrier sur le chantier
+                    </CardTitle>
                     <article className='flex gap-2 mt-4'>
                       {site.workers.map((worker, key) => (
                         <section className='border rounded-lg p-4' key={key}>
                           <article className='flex items-center space-x-2'>
-                            <h2>{worker.user[0].firstName}</h2>
-                            <h2>{worker.user[0].lastName}</h2>
+                            <h2>
+                              {worker.user?.[0]?.firstName || 'N/A'}
+                            </h2>
+                            <h2>
+                              {worker.user?.[0]?.lastName || ''}
+                            </h2>
                           </article>
                           <article className='mt-2 space-x-2'>
                             {worker.skills.map((s, k) => (
@@ -117,7 +131,9 @@ function CalendarComponent() {
               </Card>
             ))
           ) : (
-            <div className='mb-2'>{date ? " Aucun site n'est disponible ce jour-là " : ''}</div>
+            <div className='mb-2'>
+              {date ? "Aucun site n'est disponible ce jour-là" : ''}
+            </div>
           )}
         </div>
       </div>

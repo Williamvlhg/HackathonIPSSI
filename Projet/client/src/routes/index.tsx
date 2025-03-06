@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { getEmployes } from '@/services/employe.service'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderSync, PersonStanding } from 'lucide-react'
 export const Route = createFileRoute('/')({
@@ -15,7 +14,7 @@ export const Route = createFileRoute('/')({
 })
 import { Site } from '@/types/site'
 import { User } from '@/types/user'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 
 function Index() {

@@ -8,20 +8,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { getSites } from '@/services/chantier.service'
 import AddSite from '@/features/chantiers/add/add-chantiers'
 import DeleteSite from '@/features/chantiers/delete-chantier'
 import UpdateSite from '@/features/chantiers/update/update-chantier'
-import { getSites } from '@/services/chantier.service'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderClosed, FolderSync, PersonStanding } from 'lucide-react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { format, isWithinInterval } from 'date-fns';
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { isWithinInterval } from 'date-fns'
 import { useCookies } from 'react-cookie'
 
 const queryClient = new QueryClient()
 
-export const Route = createFileRoute('/chantier')({
+export const Route = createFileRoute('/chantier/')({
   component: () => (
     <QueryClientProvider client={queryClient}>
       <RouteComponent />
@@ -69,7 +68,6 @@ function RouteComponent() {
           </CardHeader>
           <CardContent className="text-3xl">{data?.data.length}</CardContent>
           <CardDescription className="px-6">Nombre totale de chantier</CardDescription>
-          
         </Card>
       </div>
       {cookie.user.role.label !== 'worker' && (
@@ -77,7 +75,6 @@ function RouteComponent() {
           <AddSite />
         </section>
       )}
-      
 
       <div className='container mx-auto py-10'>
         {isLoading ? (
@@ -122,11 +119,15 @@ function RouteComponent() {
                     <TableCell>
                       {Array.isArray(site.workers) && site.workers.length > 0 ? (
                         <div>
-                          {site.workers.map((worker) => (
-                            <p key={worker.id}>
-                              {worker.user[0].firstName} - {worker.user[0].lastName}
-                            </p>
-                          ))}
+                          {site.workers.map((worker) => {
+                            const firstName = worker.user?.[0]?.firstName || 'N/A'
+                            const lastName = worker.user?.[0]?.lastName || ''
+                            return (
+                              <p key={worker.id}>
+                                {firstName} {lastName && `- ${lastName}`}
+                              </p>
+                            )
+                          })}
                         </div>
                       ) : (
                         <span className='text-gray-500 text-xs'>Aucun travailleur</span>
@@ -146,7 +147,8 @@ function RouteComponent() {
           </section>
         )}
       </div>
-   
     </>
   )
 }
+
+export default RouteComponent

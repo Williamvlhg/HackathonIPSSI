@@ -14,9 +14,10 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as LoginImport } from './routes/login'
 import { Route as EmployesImport } from './routes/employes'
-import { Route as ChantierImport } from './routes/chantier'
 import { Route as CalendarImport } from './routes/calendar'
 import { Route as IndexImport } from './routes/index'
+import { Route as ChantierIndexImport } from './routes/chantier/index'
+import { Route as ChantierSiteIdImport } from './routes/chantier/$siteId'
 
 // Create/Update Routes
 
@@ -38,12 +39,6 @@ const EmployesRoute = EmployesImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ChantierRoute = ChantierImport.update({
-  id: '/chantier',
-  path: '/chantier',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const CalendarRoute = CalendarImport.update({
   id: '/calendar',
   path: '/calendar',
@@ -53,6 +48,18 @@ const CalendarRoute = CalendarImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChantierIndexRoute = ChantierIndexImport.update({
+  id: '/chantier/',
+  path: '/chantier/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChantierSiteIdRoute = ChantierSiteIdImport.update({
+  id: '/chantier/$siteId',
+  path: '/chantier/$siteId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -72,13 +79,6 @@ declare module '@tanstack/react-router' {
       path: '/calendar'
       fullPath: '/calendar'
       preLoaderRoute: typeof CalendarImport
-      parentRoute: typeof rootRoute
-    }
-    '/chantier': {
-      id: '/chantier'
-      path: '/chantier'
-      fullPath: '/chantier'
-      preLoaderRoute: typeof ChantierImport
       parentRoute: typeof rootRoute
     }
     '/employes': {
@@ -102,6 +102,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileImport
       parentRoute: typeof rootRoute
     }
+    '/chantier/$siteId': {
+      id: '/chantier/$siteId'
+      path: '/chantier/$siteId'
+      fullPath: '/chantier/$siteId'
+      preLoaderRoute: typeof ChantierSiteIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/chantier/': {
+      id: '/chantier/'
+      path: '/chantier'
+      fullPath: '/chantier'
+      preLoaderRoute: typeof ChantierIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -110,29 +124,32 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
-  '/chantier': typeof ChantierRoute
   '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
+  '/chantier/$siteId': typeof ChantierSiteIdRoute
+  '/chantier': typeof ChantierIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
-  '/chantier': typeof ChantierRoute
   '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
+  '/chantier/$siteId': typeof ChantierSiteIdRoute
+  '/chantier': typeof ChantierIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/calendar': typeof CalendarRoute
-  '/chantier': typeof ChantierRoute
   '/employes': typeof EmployesRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
+  '/chantier/$siteId': typeof ChantierSiteIdRoute
+  '/chantier/': typeof ChantierIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -140,39 +157,50 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/calendar'
-    | '/chantier'
     | '/employes'
     | '/login'
     | '/profile'
+    | '/chantier/$siteId'
+    | '/chantier'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calendar' | '/chantier' | '/employes' | '/login' | '/profile'
+  to:
+    | '/'
+    | '/calendar'
+    | '/employes'
+    | '/login'
+    | '/profile'
+    | '/chantier/$siteId'
+    | '/chantier'
   id:
     | '__root__'
     | '/'
     | '/calendar'
-    | '/chantier'
     | '/employes'
     | '/login'
     | '/profile'
+    | '/chantier/$siteId'
+    | '/chantier/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CalendarRoute: typeof CalendarRoute
-  ChantierRoute: typeof ChantierRoute
   EmployesRoute: typeof EmployesRoute
   LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
+  ChantierSiteIdRoute: typeof ChantierSiteIdRoute
+  ChantierIndexRoute: typeof ChantierIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CalendarRoute: CalendarRoute,
-  ChantierRoute: ChantierRoute,
   EmployesRoute: EmployesRoute,
   LoginRoute: LoginRoute,
   ProfileRoute: ProfileRoute,
+  ChantierSiteIdRoute: ChantierSiteIdRoute,
+  ChantierIndexRoute: ChantierIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -187,10 +215,11 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/calendar",
-        "/chantier",
         "/employes",
         "/login",
-        "/profile"
+        "/profile",
+        "/chantier/$siteId",
+        "/chantier/"
       ]
     },
     "/": {
@@ -198,9 +227,6 @@ export const routeTree = rootRoute
     },
     "/calendar": {
       "filePath": "calendar.tsx"
-    },
-    "/chantier": {
-      "filePath": "chantier.tsx"
     },
     "/employes": {
       "filePath": "employes.tsx"
@@ -210,6 +236,12 @@ export const routeTree = rootRoute
     },
     "/profile": {
       "filePath": "profile.tsx"
+    },
+    "/chantier/$siteId": {
+      "filePath": "chantier/$siteId.tsx"
+    },
+    "/chantier/": {
+      "filePath": "chantier/index.tsx"
     }
   }
 }
