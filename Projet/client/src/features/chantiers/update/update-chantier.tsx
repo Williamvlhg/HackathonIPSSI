@@ -171,9 +171,22 @@ const UpdateSite: FC<IUpdateSiteProps> = ({ currentSite }): JSX.Element => {
                           )
 
                           if (alreadySelected) {
-                            field.onChange(
-                              field.value.filter((skill) => skill.id !== selectedSkill.id)
+                            const updatedSkills = field.value.filter(
+                              (skill) => skill.id !== selectedSkill.id
                             )
+                            field.onChange(updatedSkills)
+
+                            const selectedWorkers = form.watch('workers') || []
+                            const updatedWorkers = selectedWorkers.filter((worker) => {
+                              const workerInfo = workersData?.data.find((w) => w.id === worker.id)
+                              return (
+                                workerInfo &&
+                                workerInfo.skills.some((skill) =>
+                                  updatedSkills.some((s) => s.id === skill.id)
+                                )
+                              )
+                            })
+                            form.setValue('workers', updatedWorkers)
                           } else {
                             field.onChange([...field.value, selectedSkill])
                           }
@@ -201,9 +214,22 @@ const UpdateSite: FC<IUpdateSiteProps> = ({ currentSite }): JSX.Element => {
                           <button
                             type='button'
                             className='ml-2 text-red-500'
-                            onClick={() =>
-                              field.onChange(field.value.filter((s) => s.id !== skill.id))
-                            }
+                            onClick={() => {
+                              const updatedSkills = field.value.filter((s) => s.id !== skill.id)
+                              field.onChange(updatedSkills)
+
+                              const selectedWorkers = form.watch('workers') || []
+                              const updatedWorkers = selectedWorkers.filter((worker) => {
+                                const workerInfo = workersData?.data.find((w) => w.id === worker.id)
+                                return (
+                                  workerInfo &&
+                                  workerInfo.skills.some((skill) =>
+                                    updatedSkills.some((s) => s.id === skill.id)
+                                  )
+                                )
+                              })
+                              form.setValue('workers', updatedWorkers)
+                            }}
                           >
                             ✕
                           </button>
@@ -245,17 +271,19 @@ const UpdateSite: FC<IUpdateSiteProps> = ({ currentSite }): JSX.Element => {
                                 field.value.filter((worker) => worker.id !== selectedWorker.id)
                               )
                             } else {
-                              field.onChange([...field.value, selectedWorker])
+                              field.onChange([...field.value, { id: selectedWorker.id }])
                             }
                           }}
                         >
                           <SelectTrigger className='w-full'>
                             <SelectValue placeholder='Choisir un ou plusieurs employés' />
                           </SelectTrigger>
+
                           <SelectContent>
                             {filteredWorkers.map((worker) => (
                               <SelectItem key={worker.id} value={String(worker.id)}>
-                                {worker.user[0].firstName} #{worker.id} -{' '}
+                                {worker.user[0]?.firstName} {worker.user[0]?.lastName} #{worker.id}{' '}
+                                - Compétences :{' '}
                                 {worker.skills.length > 0
                                   ? worker.skills.map((s) => s.label).join(', ')
                                   : 'Aucune compétence'}
@@ -272,9 +300,10 @@ const UpdateSite: FC<IUpdateSiteProps> = ({ currentSite }): JSX.Element => {
                             workerInfo && (
                               <div
                                 key={worker.id}
-                                className='bg-gray-200 px-2 py-1 rounded flex items-center'
+                                className='bg-blue-200 px-2 py-1 rounded flex items-center'
                               >
-                                Worker #{worker.id} -{' '}
+                                {workerInfo.user[0]?.firstName} {workerInfo.user[0]?.lastName} #
+                                {worker.id} -{' '}
                                 {workerInfo.skills.length > 0
                                   ? workerInfo.skills.map((s) => s.label).join(', ')
                                   : 'Aucune compétence'}
