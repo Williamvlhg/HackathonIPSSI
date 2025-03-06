@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  label String @unique
+
+  // Un même role peut être attribué à plusieurs utilisateurs
+  User User[]
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  firstName String
+  lastName  String
+  email     String @unique
+  password  String
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  // Worker peut être null au cas ou si le user à le role RH par exemple
+  worker   Worker? @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId Int?
+}
+
+// Worker est un user qui travail dans un chantier
+model Worker {
+  id Int @id @default(autoincrement())
+
+  // relation one to one => UN user est peut être UN worker
+  user User[]
+
+  /**
+   * Plusieurs worker à un ou plusieurs même skills
+   * relation many to many
+   */
+  skills Skill[] @relation("WorkerSkills")
+
+  // le worker peut travailler sur plusieurs sites
+  sites Site[]
+
+  missions Mission[]
+}
+
+model Mission {
+  id        Int    @id @default(autoincrement())
+  title     String
+  startDate String
+  endDate   String
+
+  worker   Worker @relation(fields: [workerId], references: [id])
+  workerId Int
+
+  site   Site @relation(fields: [siteId], references: [id])
+  siteId Int
+}
+
+model Skill {
+  id    Int    @id @default(autoincrement())
+  label String
+
+  // Relation many-to-one avec Worker : un Skill peut être associé à un Worker
+  workers Worker[] @relation("WorkerSkills")
+
+  skills Site[] @relation("WorkerSites")
+}
+
+model Site {
+  id Int @id @default(autoincrement())
+
+  name      String
+  address   String
+  startDate String
+  endDate   String
+
+  // plusieurs workers sur un site
+  workers Worker[]
+
+  // plusieurs skills
+  skills Skill[] @relation("WorkerSites")
+
+  missions Mission[]
+}
