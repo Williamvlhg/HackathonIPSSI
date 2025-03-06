@@ -27,6 +27,23 @@ router.get('/all', async (req: Request, res: Response) => {
               label: true,
             },
           },
+          missions: {
+            select: {
+              title: true,
+              endDate: true,
+              startDate: true,
+              worker: {
+                select: {
+                  user: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       }),
     })
@@ -47,12 +64,13 @@ router.get('/:id', async (req: Request, res: Response) => {
       include: {
         workers: true,
         skills: true,
+        missions: true,
       },
     })
 
     res.status(site ? 200 : 404).json({
       success: !!site,
-      data: site ? site : 'unknow site',
+      data: site ? site : 'Chantier introuvable',
     })
   } catch (e: any) {
     const idValid = z.coerce.number().int().safeParse(req.params.id)
@@ -60,7 +78,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     if (idValid) {
       res.status(400).json({
         success: false,
-        message: 'ID Inconnu',
+        message: 'ID invalide',
       })
     }
   }
