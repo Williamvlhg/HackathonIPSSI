@@ -3,6 +3,7 @@ import AddMission from '@/features/missions/add/add-missions'
 import { getSite } from '@/services/chantier.service'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
+import { useCookies } from 'react-cookie'
 
 const queryClient = new QueryClient()
 
@@ -16,7 +17,7 @@ export const Route = createFileRoute('/chantier/$siteId')({
 
 function RouteDetailComponent() {
   const { siteId } = Route.useParams()
-
+  const [cookie] = useCookies(['user'])
   const { data: siteQuery, isLoading: siteLoading, error: siteError } = getSite(Number(siteId))
 
   if (siteLoading) {
@@ -61,10 +62,12 @@ function RouteDetailComponent() {
           <hr className='my-6' />
 
           <article className='rounded-lg p-4 border'>
-            <div className='flex gap-4 items-center'>
-              <h3 className='text-2xl'>Missions</h3>
-              <AddMission />
-            </div>
+            {cookie.user.role !== 'worker' && (
+              <div className='flex gap-4 items-center'>
+                <h3 className='text-2xl'>Missions</h3>
+                <AddMission />
+              </div>
+            )}
 
             <div className='flex items-center gap-4'>
               {siteQuery?.data.missions.map((m, k) => (

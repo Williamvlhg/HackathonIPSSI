@@ -51,15 +51,7 @@ function RouteComponent() {
           <CardContent className="text-3xl">{currentlyWorkingSites?.length}</CardContent>
           <CardDescription className="px-6">Nombre de chantier (en cours)</CardDescription>
         </Card>
-        <Card className='p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100'>
-          <CardHeader>
-            <CardTitle>
-              <PersonStanding size={50} />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className='text-3xl'>37</CardContent>
-          <CardDescription className='px-6'>Nombre d'employés affectés</CardDescription>
-        </Card>
+       
         <Card className='p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100'>
           <CardHeader>
             <CardTitle>
