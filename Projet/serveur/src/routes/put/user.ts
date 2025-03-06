@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express'
 import { prisma } from '../../lib/prisma'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { updateProfileSchema } from '../../types/profile.schema'
+import { z } from 'zod'
 
 const router = Router()
 
@@ -41,25 +43,46 @@ router.put('/:id', async (req: Request, res: Response) => {
 
 // @ts-expect-error - overload
 router.put('/profile/:id', async (req: Request, res: Response) => {
+  const idValid = z.coerce.number().int().safeParse(req.params.id)
+
+  if (!idValid.success) {
+    return res.status(400).json({
+      success: false,
+      message: 'ID invalid',
+    })
+  }
+
+  const id = idValid.data
+
   try {
-    const user = await prisma.user.update({
-      where: { id: Number(req.params.id) },
-      data: {
-        email: req.body.email,
-        password: req.body.password,
-      },
+    const input = updateProfileSchema.safeParse(req.body)
+    if (!input.success) {
+      return res.status(400).json({
+        success: false,
+        message: 'Données invalides',
+      })
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id },
     })
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
-        message: 'Utilisateur inconnu',
+        message: 'Utilisateur non trouvé',
       })
     }
+
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: input.data,
+    })
 
     return res.status(200).json({
       success: true,
       message: 'Profile mis à jour',
+      data: updatedUser,
     })
   } catch (e: any) {
     console.error(e)
