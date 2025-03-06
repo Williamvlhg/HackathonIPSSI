@@ -35,7 +35,7 @@ export function getMissions() {
     toast('Erreur lors de la récupération des missions')
   }
 
-  return { data, isLoading, refetch, error }
+  return { data, isLoading, refetch, error}
 }
 
 /**
@@ -143,38 +143,32 @@ export function updateMission(missionId: number) {
 
   return { mutate }
 }
-
-/**
- * Supprimer une mission
- * @param missionId
- * @returns void
- */
 export function deleteMission(missionId: number) {
-  const { refetch } = getMissions()
-
-  const { mutate } = useMutation({
-    mutationKey: ['deleteMission'],
-    mutationFn: async () => {
-      const res = await fetch(`http://localhost:8080/mission/${missionId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json',
-        },
-      })
-
-      if (!res.ok) {
-        throw new Error('Failed to delete mission')
-      }
-
-      refetch()
-      toast('Mission supprimée')
-      return await res.json()
-    },
-
-    onError: () => {
-      toast('Une erreur est survenue lors de la suppression de la mission')
-    },
-  })
-
-  return { mutate }
-}
+    const { refetch } = getMissions()
+  
+    const { mutate } = useMutation({
+      mutationKey: ['deleteMission'],
+      mutationFn: async () => {
+        const res = await fetch(`http://localhost:8080/mission/${missionId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json',
+          },
+        })
+  
+        if (!res.ok) {
+          throw new Error('Failed to delete mission')
+        }
+  
+        refetch()
+        toast('Mission supprimée')
+        return await res.json()
+      },
+  
+      onError: () => {
+        toast('Une erreur est survenue lors de la suppression de la mission')
+      },
+    })
+  
+    return { mutate }
+  }

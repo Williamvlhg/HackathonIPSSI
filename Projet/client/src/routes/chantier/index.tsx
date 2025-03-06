@@ -8,18 +8,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { getSites } from '@/services/chantier.service'
 import AddSite from '@/features/chantiers/add/add-chantiers'
 import DeleteSite from '@/features/chantiers/delete-chantier'
 import UpdateSite from '@/features/chantiers/update/update-chantier'
-import { getSites } from '@/services/chantier.service'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderClosed, FolderSync, PersonStanding } from 'lucide-react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { isWithinInterval } from 'date-fns'
 import { useCookies } from 'react-cookie'
 
 const queryClient = new QueryClient()
 
-export const Route = createFileRoute('/chantier')({
+export const Route = createFileRoute('/chantier/')({
   component: () => (
     <QueryClientProvider client={queryClient}>
       <RouteComponent />
@@ -30,6 +31,13 @@ export const Route = createFileRoute('/chantier')({
 function RouteComponent() {
   const { data, isLoading, error } = getSites()
   const [cookie] = useCookies(['user'])
+  const currentDate = new Date()
+  const currentlyWorkingSites = data?.data.filter(site =>
+    isWithinInterval(currentDate, {
+      start: new Date(site.startDate),
+      end: new Date(site.endDate),
+    })
+  )
 
   return (
     <>
@@ -40,8 +48,8 @@ function RouteComponent() {
               <FolderSync size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className='text-3xl'>5</CardContent>
-          <CardDescription className='px-6'>Nombre de chantier (en cours)</CardDescription>
+          <CardContent className="text-3xl">{currentlyWorkingSites?.length}</CardContent>
+          <CardDescription className="px-6">Nombre de chantier (en cours)</CardDescription>
         </Card>
         <Card className='p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100'>
           <CardHeader>
@@ -58,11 +66,10 @@ function RouteComponent() {
               <FolderClosed size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className='text-3xl'>67</CardContent>
-          <CardDescription className='px-6'>Nombre totale de chantier</CardDescription>
+          <CardContent className="text-3xl">{data?.data.length}</CardContent>
+          <CardDescription className="px-6">Nombre totale de chantier</CardDescription>
         </Card>
       </div>
-
       {cookie.user.role.label !== 'worker' && (
         <section className='flex gap-2 my-8 align-middle'>
           <AddSite />
@@ -95,8 +102,8 @@ function RouteComponent() {
                     <TableCell className='font-medium'>{site.id}</TableCell>
                     <TableCell>{site.name}</TableCell>
                     <TableCell>{site.address}</TableCell>
-                    <TableCell>{site.startDate}</TableCell>
-                    <TableCell>{site.endDate}</TableCell>
+                    <TableCell>{new Date(site.startDate).toLocaleDateString()}</TableCell>
+                    <TableCell>{new Date(site.endDate).toLocaleDateString()}</TableCell>
                     <TableCell>
                       {Array.isArray(site.skills) && site.skills.length > 0 ? (
                         <div className='flex flex-wrap gap-2'>
@@ -112,11 +119,15 @@ function RouteComponent() {
                     <TableCell>
                       {Array.isArray(site.workers) && site.workers.length > 0 ? (
                         <div>
-                          {site.workers.map((worker) => (
-                            <p key={worker.id}>
-                              {worker.user[0].firstName} - {worker.user[0].lastName}
-                            </p>
-                          ))}
+                          {site.workers.map((worker) => {
+                            const firstName = worker.user?.[0]?.firstName || 'N/A'
+                            const lastName = worker.user?.[0]?.lastName || ''
+                            return (
+                              <p key={worker.id}>
+                                {firstName} {lastName && `- ${lastName}`}
+                              </p>
+                            )
+                          })}
                         </div>
                       ) : (
                         <span className='text-gray-500 text-xs'>Aucun travailleur</span>
@@ -142,3 +153,5 @@ function RouteComponent() {
     </>
   )
 }
+
+export default RouteComponent

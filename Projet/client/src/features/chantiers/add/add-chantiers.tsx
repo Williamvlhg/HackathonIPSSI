@@ -31,13 +31,14 @@ import { FC, JSX, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { addSiteSchema } from './add-chantier.schema'
+import { format } from 'date-fns'
 
 const AddSite: FC = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false)
   const { mutate } = addSite()
   const [isPending, startTransition] = useTransition()
 
-  const { data } = useQuery<{ success: boolean; data: Skill[] }>({
+  const { data, refetch } = useQuery<{ success: boolean; data: Skill[] }>({
     queryKey: ['getSkill'],
     queryFn: async () => {
       const res = await fetch('http://localhost:8080/skill/all')
@@ -67,10 +68,22 @@ const AddSite: FC = (): JSX.Element => {
 
   function onSubmit(values: z.infer<typeof addSiteSchema>) {
     startTransition(() => {
-      mutate(values)
-      setIsOpen(false)
+      const formattedEndDate = format(new Date(values.endDate), 'yyyy-MM-dd')
+      const formattedStartDate = format(new Date(values.startDate), 'yyyy-MM-dd')
+      mutate(
+        { ...values, endDate: formattedEndDate, startDate: formattedStartDate },
+        {
+          onSuccess: () => {
+            refetch()
+            form.reset()
+            setIsOpen(false)
+          },
+        }
+      
+      )
     })
   }
+
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
@@ -117,7 +130,9 @@ const AddSite: FC = (): JSX.Element => {
                   <FormItem className='w-full'>
                     <FormLabel>Date de début</FormLabel>
                     <FormControl>
-                      <Input placeholder='03/03/2025' {...field} />
+                      <Input placeholder='03/03/2025'  {...field} 
+                      pattern='\d{2}/\d{2}/\d{4}'
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -131,7 +146,9 @@ const AddSite: FC = (): JSX.Element => {
                   <FormItem className='w-full'>
                     <FormLabel>Date de fin</FormLabel>
                     <FormControl>
-                      <Input placeholder='07/03/2025' {...field} />
+                      <Input placeholder='07/03/2025' {...field} 
+                      pattern='\d{2}/\d{2}/\d{4}'
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

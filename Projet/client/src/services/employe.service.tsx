@@ -31,7 +31,7 @@ export function getEmployes() {
  * @returns User
  */
 export function getEmploye(userId: number) {
-  const { data, isLoading, refetch } = useQuery<{ data: User }>({
+  const { data, isLoading, refetch, error } = useQuery<{ data: User }>({
     queryKey: ['employe'],
     queryFn: async () => {
       const res = await fetch(`http://localhost:8080/user/${userId}`)
@@ -39,7 +39,7 @@ export function getEmploye(userId: number) {
     },
   })
 
-  return { data, isLoading, refetch }
+  return { data, isLoading, refetch, error }
 }
 
 /**

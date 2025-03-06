@@ -29,7 +29,7 @@ export function getSites() {
  * @returns Site
  */
 export function getSite(siteId: number) {
-  const { data, isLoading, refetch } = useQuery<{ data: Site }>({
+  const { data, isLoading, refetch, error } = useQuery<{ data: Site }>({
     queryKey: ['site'],
     queryFn: async () => {
       const res = await fetch(`http://localhost:8080/site/${siteId}`)
@@ -37,7 +37,7 @@ export function getSite(siteId: number) {
     },
   })
 
-  return { data, isLoading, refetch }
+  return { data, isLoading, refetch, error }
 }
 
 /**

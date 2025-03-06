@@ -1,4 +1,4 @@
-import { Briefcase, Calendar, Home, Settings, User, Users } from 'lucide-react'
+import { Briefcase, Calendar, Home, User, Users } from 'lucide-react'
 
 import {
   Sidebar,
@@ -41,11 +41,6 @@ const items = [
     title: 'Calendrier',
     url: '/calendar',
     icon: Calendar,
-  },
-  {
-    title: 'Settings',
-    url: '#',
-    icon: Settings,
   },
 ]
 
