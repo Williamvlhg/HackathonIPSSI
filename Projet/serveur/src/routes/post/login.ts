@@ -24,8 +24,7 @@ router.post('/', async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, message: 'Mot de passe incorrect' })
   }
 
-
-	const user = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       email: data.email,
     },
