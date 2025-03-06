@@ -1,4 +1,3 @@
-
 export type Mission = {
     id: number,
     title: string,

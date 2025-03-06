@@ -19,10 +19,34 @@ router.post('/create', async (req: Request, res: Response) => {
       prisma.site.findUnique({ where: { id: input.siteId } }),
     ])
 
-    if (!worker || !site) {
+    if (!worker) {
       return res.status(400).json({
         success: false,
-        message: !worker ? 'Worker inexistant' : 'Chantier inexistant',
+        message: 'Worker introuvable',
+      })
+    }
+
+    if (!site) {
+      return res.status(400).json({
+        success: false,
+        message: 'Site introuvable',
+      })
+    }
+
+    // Vérification de l'existence d'une mission aux mêmes dates
+    const existingMission = await prisma.mission.findFirst({
+      where: {
+        workerId: input.workerId,
+        siteId: input.siteId,
+        startDate: input.startDate,
+        endDate: input.endDate,
+      },
+    })
+
+    if (existingMission) {
+      return res.status(400).json({
+        success: false,
+        message: 'Il y a déjà une mission à cette date la',
       })
     }
 

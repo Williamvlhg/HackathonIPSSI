@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { loginSchema } from '../../types/login.schema'
 import { prisma } from '../../lib/prisma'
+import bcrypt from 'bcryptjs'
 
 const router = Router()
 
@@ -19,12 +20,14 @@ router.post('/', async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, message: "L'email n'existe pas" })
   }
 
-  const isUserPasswordCorrect = users.some((user) => user.password === data.password)
+  const user = users.find((user) => user.email === data.email)
+
+  const isUserPasswordCorrect = user && (await bcrypt.compare(data.password, user.password))
   if (!isUserPasswordCorrect) {
     return res.status(400).json({ success: false, message: 'Mot de passe incorrect' })
   }
 
-  const user = await prisma.user.findUnique({
+  const userInfo = await prisma.user.findUnique({
     where: {
       email: data.email,
     },
@@ -39,7 +42,7 @@ router.post('/', async (req: Request, res: Response) => {
     },
   })
 
-  res.status(200).json({ success: true, message: 'Login', user })
+  res.status(200).json({ success: true, message: 'Login', user: userInfo })
 })
 
 export default router

@@ -93,7 +93,7 @@ function RouteComponent() {
                   <TableHead>Date de fin</TableHead>
                   <TableHead>Compétences requises</TableHead>
                   <TableHead>Employés</TableHead>
-                  <TableHead>Actions</TableHead>
+                  {cookie.user.role.label !== 'worker' && <TableHead>Actions</TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -133,13 +133,16 @@ function RouteComponent() {
                         <span className='text-gray-500 text-xs'>Aucun travailleur</span>
                       )}
                     </TableCell>
-                    <TableCell className='space-x-2 flex items-center'>
-                      <a href={`/chantier/${site.id}`} className={buttonVariants()}>
-                        Détails
-                      </a>
-                      <UpdateSite currentSite={site} />
-                      <DeleteSite siteId={site.id} />
-                    </TableCell>
+
+                    {cookie.user.role.label !== 'worker' && (
+                      <TableCell className='space-x-2 flex items-center'>
+                        <a href={`/chantier/${site.id}`} className={buttonVariants()}>
+                          Détails
+                        </a>
+                        <UpdateSite currentSite={site} />
+                        <DeleteSite siteId={site.id} />
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

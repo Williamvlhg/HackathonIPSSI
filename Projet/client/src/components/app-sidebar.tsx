@@ -1,4 +1,4 @@
-import { Briefcase, Calendar, Home, Settings, User, Users } from 'lucide-react'
+import { Briefcase, Calendar, Home, User, Users } from 'lucide-react'
 
 import {
   Sidebar,

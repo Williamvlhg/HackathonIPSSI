@@ -7,6 +7,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { updateWorker } from './worker.service'
+import bcrypt from 'bcryptjs'
 
 /**
  * Récupérer tous les employés
@@ -122,6 +123,8 @@ export function addEmploye() {
   >({
     mutationKey: ['register'],
     mutationFn: async (values: z.infer<typeof addEmployeSchema>) => {
+      const passwordHash = await bcrypt.hash(values.password, 10)
+
       const res = await fetch('http://localhost:8080/register', {
         method: 'POST',
         headers: {
@@ -131,7 +134,7 @@ export function addEmploye() {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
-          password: values.password,
+          password: passwordHash,
           roleId: Number(values.roleId),
         }),
       })

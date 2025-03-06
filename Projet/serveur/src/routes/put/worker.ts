@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { prisma } from '../../lib/prisma'
-import {PrismaClientKnownRequestError} from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 
 const router = Router()
 
@@ -46,17 +46,17 @@ router.put('/:id', async (req: Request, res: Response) => {
       message: 'Compétences mises à jour',
     })
   } catch (e: any) {
-	  if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025') {
-		  return res.status(404).json({
-			  success: false,
-			  message: 'ID Inconnu'
-		  });
-	  }
+    if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025') {
+      return res.status(404).json({
+        success: false,
+        message: 'ID Inconnu',
+      })
+    }
 
-	  res.status(500).json({
-		  success: false,
-		  message: e.message
-	  });
+    res.status(500).json({
+      success: false,
+      message: e.message,
+    })
   }
 })
 
