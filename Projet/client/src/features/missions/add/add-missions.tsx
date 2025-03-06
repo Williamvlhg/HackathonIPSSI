@@ -27,11 +27,11 @@ import { Site } from '@/types/site'
 import { WorkerType } from '@/types/worker'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import { FC, JSX, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { missionSchema } from './add-mission.schema'
-import { format } from 'date-fns'
 
 const AddMission: FC = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false)
