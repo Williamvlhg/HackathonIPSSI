@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { getEmployes } from '@/services/employe.service'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderSync, PersonStanding } from 'lucide-react'
 export const Route = createFileRoute('/')({

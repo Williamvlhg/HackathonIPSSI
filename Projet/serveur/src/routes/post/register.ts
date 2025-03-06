@@ -16,7 +16,19 @@ router.post('/', async (req: Request, res: Response) => {
 
   const isUserExist = users.some((user) => user.email === input.email)
   if (isUserExist) {
-    return res.status(400).json({ success: false, message: "L'utilisateur existe déjà" })
+    return res.status(400).json({ success: false, message: "L'email existe déjà" })
+  }
+
+  // Vérification si le role existe
+  const role = await prisma.role.findUnique({
+    where: { id: input.roleId },
+  })
+
+  if (!role) {
+    return res.status(400).json({
+      success: false,
+      message: "Le rôle n'existe pas",
+    })
   }
 
   const user = await prisma.user.create({

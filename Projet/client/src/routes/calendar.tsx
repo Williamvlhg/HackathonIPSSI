@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
-import { Site } from '@/types/site'
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
+import { getSites } from '@/services/chantier.service'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { format, isWithinInterval, parseISO } from 'date-fns'
 import { useState } from 'react'
@@ -20,20 +20,10 @@ export const Route = createFileRoute('/calendar')({
 function CalendarComponent() {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
-  const { data, error, isLoading } = useQuery<Site[]>({
-    queryKey: ['sites'],
-    queryFn: async () => {
-      const response = await fetch('http://localhost:8080/site/all')
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      const result = await response.json()
-      return result.data
-    },
-  })
+  const { data, error, isLoading } = getSites()
 
   const currentWorkingSite =
-    data?.filter(
+    data?.data?.filter(
       (site) =>
         date &&
         isWithinInterval(date, {
