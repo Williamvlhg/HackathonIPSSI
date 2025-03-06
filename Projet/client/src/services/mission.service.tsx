@@ -35,7 +35,7 @@ export function getMissions() {
     toast('Erreur lors de la récupération des missions')
   }
 
-  return { data, isLoading, refetch }
+  return { data, isLoading, refetch, error }
 }
 
 /**
