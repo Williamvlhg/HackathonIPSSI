@@ -1,6 +1,6 @@
-import { Router, Request, Response } from 'express'
-import { prisma } from '../../lib/prisma'
+import { Request, Response, Router } from 'express'
 import { z } from 'zod'
+import { prisma } from '../../lib/prisma'
 
 const router = Router()
 
@@ -55,7 +55,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     res.status(worker ? 200 : 404).json({
       success: !!worker,
-      data: worker ? worker : 'Ouvrier inconnu',
+      data: worker ? worker : "L'ouvrier est introuvable",
     })
   } catch (e: any) {
     const idValid = z.coerce.number().int().safeParse(req.params.id)
