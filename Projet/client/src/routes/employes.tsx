@@ -11,12 +11,12 @@ import {
 import AddEmploye from '@/features/employes/add/add-employes'
 import DeleteEmploye from '@/features/employes/delete-employe'
 import UpdateEmploye from '@/features/employes/update/update-employe'
-import { createFileRoute } from '@tanstack/react-router'
-import { isWithinInterval } from 'date-fns'
-import { FolderClosed, FolderSync, PersonStanding } from 'lucide-react'
-import { useCookies } from 'react-cookie'
 import { Mission } from '@/types/mission'
 import { User } from '@/types/user'
+import { createFileRoute } from '@tanstack/react-router'
+import { isWithinInterval } from 'date-fns'
+import { FolderSync } from 'lucide-react'
+import { useCookies } from 'react-cookie'
 
 import { useQuery } from '@tanstack/react-query'
 
@@ -92,32 +92,36 @@ function RouteComponent() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {employesQuery.data?.data.map((user, key) => (
-                <TableRow key={key}>
-                  <TableCell className='font-medium'>{user.id}</TableCell>
-                  <TableCell>{user.firstName}</TableCell>
-                  <TableCell>{user.lastName}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.role.label}</TableCell>
-                  <TableCell className='flex flex-wrap items-center gap-1 max-w-lg'>
-                    {user.worker?.skills.map((item, key) => <Badge key={key}>{item.label}</Badge>)}
-                  </TableCell>
-                  {/* à modifier quand le champs des missions est rajouté */}
-                  <TableCell>
-                    {isAvailable(user) ? (
-                      <Badge variant='default'>Disponible</Badge>
-                    ) : (
-                      <Badge variant='destructive'>Non disponible</Badge>
-                    )}
-                  </TableCell>
-                  {cookie.user.role.label !== 'worker' && (
-                    <TableCell className='space-x-2'>
-                      <UpdateEmploye currentUser={user} />
-                      <DeleteEmploye userId={user.id} />
+              {employesQuery.data?.data
+                .filter((user) => user.worker)
+                .map((user, key) => (
+                  <TableRow key={key}>
+                    <TableCell className='font-medium'>{user.id}</TableCell>
+                    <TableCell>{user.firstName}</TableCell>
+                    <TableCell>{user.lastName}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.role.label}</TableCell>
+                    <TableCell className='flex flex-wrap items-center gap-1 max-w-lg'>
+                      {user.worker?.skills.map((item, key) => (
+                        <Badge key={key}>{item.label}</Badge>
+                      ))}
                     </TableCell>
-                  )}
-                </TableRow>
-              ))}
+                    {/* à modifier quand le champs des missions est rajouté */}
+                    <TableCell>
+                      {isAvailable(user) ? (
+                        <Badge variant='default'>Disponible</Badge>
+                      ) : (
+                        <Badge variant='destructive'>Non disponible</Badge>
+                      )}
+                    </TableCell>
+                    {cookie.user.role.label !== 'worker' && (
+                      <TableCell className='space-x-2'>
+                        <UpdateEmploye currentUser={user} />
+                        <DeleteEmploye userId={user.id} />
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </section>

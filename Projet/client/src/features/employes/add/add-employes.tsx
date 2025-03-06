@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { addEmploye } from '@/services/employe.service'
+import { addEmploye, getEmployes } from '@/services/employe.service'
 import { Role } from '@/types/role'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
@@ -54,6 +54,8 @@ const AddEmploye: FC = (): JSX.Element => {
       roleId: '',
     },
   })
+
+  const { data: employesData } = getEmployes()
 
   function onSubmit(values: z.infer<typeof addEmployeSchema>) {
     startTransition(() => {
@@ -150,6 +152,7 @@ const AddEmploye: FC = (): JSX.Element => {
                               {role.label}
                             </SelectItem>
                           ))}
+                          {!employesData?.data.length && <SelectItem value={'1'}>admin</SelectItem>}
                         </SelectContent>
                       </Select>
                     </FormControl>

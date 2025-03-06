@@ -50,16 +50,21 @@ function Index() {
   })
 
   // Filter sites that are currently in progress
-  const currentlyWorkingSites = sitesQuery.data?.data.filter(site =>
-    new Date(site.startDate) <= new Date() && new Date(site.endDate) >= new Date()
+  const currentlyWorkingSites = sitesQuery.data?.data.filter(
+    (site) => new Date(site.startDate) <= new Date() && new Date(site.endDate) >= new Date()
   )
 
   // Filter missions for the logged-in worker (and currently in progress)
-  const workerMissions = missionsQuery.data?.data.filter(mission =>
-    mission.workerId === parseInt(cookie.user.id) &&
-    new Date(mission.startDate) <= new Date() &&
-    new Date(mission.endDate) >= new Date()
+  const workerMissions = missionsQuery.data?.data.filter(
+    (mission) =>
+      mission.workerId === parseInt(cookie.user.id) &&
+      new Date(mission.startDate) <= new Date() &&
+      new Date(mission.endDate) >= new Date()
   )
+
+  if (!cookie.user) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>
@@ -121,25 +126,20 @@ function Index() {
         {cookie.user.role.label === 'worker' && (
           <div>
             <h2 className='text-4xl'>Planning</h2>
-          
 
             {/* New section: Cards for worker's ongoing missions */}
             <section className='mt-8'>
               <h3 className='text-2xl'>Missions en cours</h3>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4'>
                 {workerMissions && workerMissions.length > 0 ? (
-                  workerMissions.map(mission => (
+                  workerMissions.map((mission) => (
                     <Card key={mission.id} className='p-5'>
                       <CardHeader>
                         <CardTitle>{mission.title}</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p>
-                          Début : {new Date(mission.startDate).toLocaleDateString()}
-                        </p>
-                        <p>
-                          Fin : {new Date(mission.endDate).toLocaleDateString()}
-                        </p>
+                        <p>Début : {new Date(mission.startDate).toLocaleDateString()}</p>
+                        <p>Fin : {new Date(mission.endDate).toLocaleDateString()}</p>
                       </CardContent>
                     </Card>
                   ))

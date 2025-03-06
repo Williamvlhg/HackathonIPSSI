@@ -19,25 +19,18 @@ router.post('/', async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, message: "L'email existe déjà" })
   }
 
-  // Vérification si le role existe
-  const role = await prisma.role.findUnique({
-    where: { id: input.roleId },
-  })
-
-  if (!role) {
-    return res.status(400).json({
-      success: false,
-      message: "Le rôle n'existe pas",
-    })
-  }
-
   const user = await prisma.user.create({
     data: {
       email: input.email,
       firstName: input.firstName,
       lastName: input.lastName,
       password: input.password,
-      roleId: input.roleId,
+      role: {
+        connectOrCreate: {
+          where: { id: input.roleId },
+          create: { id: input.roleId, label: 'admin' },
+        },
+      },
     },
     select: {
       id: true,
@@ -54,6 +47,16 @@ router.post('/', async (req: Request, res: Response) => {
           },
         },
       },
+    })
+  }
+
+  let workerRole = await prisma.role.findUnique({
+    where: { label: 'worker' },
+  })
+
+  if (!workerRole) {
+    workerRole = await prisma.role.create({
+      data: { label: 'worker' },
     })
   }
 

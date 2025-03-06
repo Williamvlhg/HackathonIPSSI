@@ -11,12 +11,14 @@ import {
 import { cn } from '@/lib/utils'
 
 import { Input } from '@/components/ui/input'
+import AddEmploye from '@/features/employes/add/add-employes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useCookies } from 'react-cookie'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { getEmployes } from '@/services/employe.service'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -27,6 +29,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
   // @ts-expect-error - On utilise pas cookie mais on est obligé de le définir car c'est un tuple
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookie, setCookie] = useCookies(['user'])
+
+  const { data: employesData, isLoading: isLoadingEmployes } = getEmployes()
 
   const { isPending, mutate, data } = useMutation<
     {
@@ -77,6 +81,10 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
     mutate(values)
   }
 
+  if (isLoadingEmployes) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -115,9 +123,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                 )}
               />
               <div className='flex flex-col gap-3'>
-                <Button type='submit' className='w-full'>
-                  {isPending ? 'loading' : 'Se connecter'}
-                </Button>
+                {employesData!.data.length > 0 ? (
+                  <Button type='submit' className='w-full'>
+                    {isPending ? 'loading' : 'Se connecter'}
+                  </Button>
+                ) : (
+                  <AddEmploye />
+                )}
               </div>
               {data?.success === false && (
                 <div className='bg-red-200 rounded-md p-2'>
