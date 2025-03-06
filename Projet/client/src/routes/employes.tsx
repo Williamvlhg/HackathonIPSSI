@@ -76,6 +76,11 @@ function RouteComponent() {
                 <TableHead>Email</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Compétences</TableHead>
+                <TableHead>Disponibilité</TableHead>
+                <TableHead>Action</TableHead>
+                {cookie.user.role.label !== 'worker' && (
+                    <TableHead>Action</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -89,6 +94,8 @@ function RouteComponent() {
                   <TableCell className='flex flex-wrap items-center gap-1 max-w-lg'>
                     {user.worker?.skills.map((item, key) => <Badge key={key}>{item.label}</Badge>)}
                   </TableCell>
+                  {/* à modifier quand le champs des missions est rajouté */}
+                  <TableCell>{user.isAvailable? <Badge variant="default">Disponible</Badge> : <Badge variant="destructive">Non disponible</Badge>}</TableCell>  
                   {cookie.user.role.label !== 'worker' && (
                     <TableCell className='space-x-2'>
                       <UpdateEmploye currentUser={user} />

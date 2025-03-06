@@ -80,9 +80,9 @@ function CalendarComponent() {
                       <p>Adresse</p>
                       <p>{site.address}</p>
                       <p>Début</p>
-                      <p>{site.startDate}</p>
+                      <p>{new Date(site.startDate).toLocaleDateString()}</p>
                       <p>Fin</p>
-                      <p>{site.startDate}</p>
+                      <p>{new Date(site.endDate).toLocaleDateString()}</p>
                     </article>
                   </section>
 

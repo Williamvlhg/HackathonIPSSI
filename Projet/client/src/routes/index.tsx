@@ -1,5 +1,3 @@
-import { getEmployes } from '@/services/employe.service'
-import { getSites } from '@/services/chantier.service'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -11,23 +9,34 @@ import {
 } from '@/components/ui/table'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderSync, PersonStanding } from 'lucide-react'
-import { isWithinInterval } from 'date-fns'
-import { useQuery } from '@tanstack/react-query'
-
 export const Route = createFileRoute('/')({
   component: Index,
 })
+import { Site } from '@/types/site'
+import { User } from '@/types/user'
+import { useMutation, useQuery } from '@tanstack/react-query'
+
 
 function Index() {
-  const { data: dataEmployes } = useQuery(['getEmployes'], getEmployes)
-  const { data: dataSites } = useQuery(['getSites'], getSites)
-  const currentDate = new Date()
-  const currentlyWorkingSites = dataSites?.data.filter((site) =>
-    isWithinInterval(currentDate, {
-      start: new Date(site.startDate),
-      end: new Date(site.endDate),
+    const sitesQuery = useQuery<{ data: Array<Site> }>({
+      queryKey: ['sites'],
+      queryFn: async () => {
+        const res = await fetch('http://localhost:8080/site/all')
+        return await res.json()
+      },
     })
+  
+  const employesQuery = useQuery<{ data: Array<User> }>({
+    queryKey: ['employes'],
+    queryFn: async () => {
+      const res = await fetch('http://localhost:8080/user/all')
+      return await res.json()
+    },
+  })
+  const currentlyWorkingSites = sitesQuery.data?.data.filter(site =>
+    new Date(site.startDate) <= new Date() && new Date(site.endDate) >= new Date()
   )
+
 
   return (
     <div className='space-y-8'>
@@ -39,7 +48,7 @@ function Index() {
               <FolderSync size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className='text-3xl'>{dataEmployes?.data.length}</CardContent>
+          <CardContent className='text-3xl'>{employesQuery.data?.data.length}</CardContent>
           <CardDescription className='px-6'>Nombre d'employés</CardDescription>
         </Card>
         <Card className='p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100'>
@@ -84,5 +93,3 @@ function Index() {
     </div>
   )
 }
-
-export default Index

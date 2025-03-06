@@ -13,8 +13,6 @@ import { z } from 'zod'
  */
 export function getSites() {
   const { data, isLoading, refetch, error } = useQuery<{ data: Array<Site> }>({
-    queryKey: ['site'],
-  const { data, isLoading, refetch, error } = useQuery<{ data: Array<Site> }>({
     queryKey: ['sites'],
     queryFn: async () => {
       const res = await fetch('http://localhost:8080/site/all')
