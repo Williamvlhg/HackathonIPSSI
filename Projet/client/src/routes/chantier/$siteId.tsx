@@ -5,6 +5,7 @@ import UpdateMission from '@/features/missions/update/update-mission'
 import DeleteMission from '@/features/missions/delete-mission'
 import { createFileRoute } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider, useQueries } from '@tanstack/react-query'
+import { useCookies } from 'react-cookie'
 
 
 const queryClient = new QueryClient()
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/chantier/$siteId")({
 
 function RouteDetailComponent() {
   const { siteId } = Route.useParams()
-
+  const [cookie] = useCookies(['user'])
   const { data: siteQuery, isLoading: siteLoading, error: siteError } = getSite(Number(siteId))
 
   const workerQueries = useQueries({
@@ -120,10 +121,17 @@ function RouteDetailComponent() {
                       {mission.title} - {new Date(mission.startDate).toLocaleDateString()} à{' '}
                       {new Date(mission.endDate).toLocaleDateString()} par{' '}
                       {query.data.data.firstName} {query.data.data.lastName}
-                      <UpdateMission currentMission={mission}/>
-                      <DeleteMission
-                        missionId={mission.id}
-                      />
+
+
+                      {cookie.user.role.label !== 'worker' && (
+                        <section className='flex gap-2 my-8 align-middle'>
+                         <UpdateMission currentMission={mission}/>
+                          <DeleteMission
+                            missionId={mission.id}
+                          />
+                        </section>
+                      )}
+
                     </p>
                   )
                 })}
