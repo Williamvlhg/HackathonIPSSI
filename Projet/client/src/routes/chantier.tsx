@@ -114,7 +114,7 @@ function RouteComponent() {
                         <div>
                           {site.workers.map((worker) => (
                             <p key={worker.id}>
-                              {worker.user[0].firstName} - {worker.user[0].lastName}
+                              {worker.user[0].firstName} {worker.user[0].lastName}#{worker.id}
                             </p>
                           ))}
                         </div>
