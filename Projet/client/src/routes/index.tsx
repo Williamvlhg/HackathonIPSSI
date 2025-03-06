@@ -1,4 +1,3 @@
-import { getEmployes } from '@/services/employe.service'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -8,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { getEmployes } from '@/services/employe.service'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderSync, PersonStanding } from 'lucide-react'
 export const Route = createFileRoute('/')({
