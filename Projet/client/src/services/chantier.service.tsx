@@ -95,12 +95,12 @@ export function updateSite(siteId: number) {
       return await res.json()
     },
 
-    onError: (data) => {
-      toast(data.message)
+    onError: () => {
+      toast('erreur')
     },
 
-    onSuccess: (data) => {
-      toast(data.message)
+    onSuccess: () => {
+      toast('Chantier modifié')
       refetch()
     },
   })
