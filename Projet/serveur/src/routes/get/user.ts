@@ -25,7 +25,7 @@ router.get('/all', async (req: Request, res: Response) => {
 
     res.status(user ? 200 : 404).json({
       success: !!user,
-      data: user ? user : 'unknow user',
+      data: user ? user : 'Utilisateur inconnu',
     })
   } catch (e: any) {
     res.status(500).json({

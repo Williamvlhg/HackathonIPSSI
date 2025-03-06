@@ -9,7 +9,7 @@ router.post('/', async (req: Request, res: Response) => {
   const { success, data } = loginSchema.safeParse(req.body)
 
   if (!success) {
-    return res.status(400).json({ success: false, message: 'Invalid data' })
+    return res.status(400).json({ success: false, message: 'Données invalides' })
   }
 
   const users = await prisma.user.findMany()
@@ -24,7 +24,8 @@ router.post('/', async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, message: 'Mot de passe incorrect' })
   }
 
-  const user = await prisma.user.findUnique({
+
+	const user = await prisma.user.findUnique({
     where: {
       email: data.email,
     },

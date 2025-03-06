@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { prisma } from '../../lib/prisma'
+import {PrismaClientKnownRequestError} from "@prisma/client/runtime/library";
 
 const router = Router()
 
@@ -19,23 +20,22 @@ router.put('/:id', async (req: Request, res: Response) => {
       },
     })
 
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found',
-      })
-    }
-
     res.status(200).json({
       success: true,
       data: user,
     })
   } catch (e: any) {
-    console.error(e)
-    res.status(500).json({
-      success: false,
-      message: 'Internal Server Error',
-    })
+	  if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025') {
+		  return res.status(404).json({
+			  success: false,
+			  message: 'ID Inconnu'
+		  });
+	  }
+
+	  res.status(500).json({
+		  success: false,
+		  message: e.message
+	  });
   }
 })
 
@@ -53,7 +53,7 @@ router.put('/profile/:id', async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found',
+        message: 'Utilisateur inconnu',
       })
     }
 
@@ -61,11 +61,11 @@ router.put('/profile/:id', async (req: Request, res: Response) => {
       success: true,
       message: 'Profile mis à jour',
     })
-  } catch (e) {
+  } catch (e:any) {
     console.error(e)
     res.status(500).json({
       success: false,
-      message: 'Internal Server Error',
+      message: e.message,
     })
   }
 })
