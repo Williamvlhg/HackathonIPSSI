@@ -5,11 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8012120-fe6a-4e92-ae60-d98b3a1ea512" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/delete-mission.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/delete-user.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/get-mission.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/delete-role.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/delete-skill.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/get-role.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/serveur/src/__tests__/get-skill.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/serveur/src/types/profile.schema.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Schemas/image.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serveur/src/__tests__/get-user.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/__tests__/get-user.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/chantiers/update/update-chantier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/chantiers/update/update-chantier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/chantier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/chantier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/services/profile.service.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/profile.service.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/src/__tests__/delete-mission.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/__tests__/delete-mission.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/src/routes/post/mission.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/post/mission.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/src/routes/put/site.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/put/site.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serveur/src/routes/put/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/serveur/src/routes/put/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Schemas/Classe.drawio" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,11 +65,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Jest.Normalement on créé un nouveau rôle.executor": "Run",
+    "Jest.Normalement on créé une nouvelle compétence.executor": "Run",
     "Jest.Normalement on créé une nouvelle mission.executor": "Run",
+    "Jest.Normalement on supprime un rôle.executor": "Run",
     "Jest.Normalement on supprime un utilisateur.executor": "Run",
+    "Jest.Normalement on supprime une compétence.executor": "Run",
     "Jest.Normalement on supprime une mission.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "hamid2",
+    "git-widget-placeholder": "Merging hamid2",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -69,7 +83,31 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Jest.Normalement on créé une nouvelle mission">
+  <component name="RunManager" selected="Jest.Normalement on supprime une compétence">
+    <configuration name="Normalement on créé un nouveau rôle" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/serveur/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/serveur" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/get-role.test.ts" />
+      <test-names>
+        <test-name value="Normalement on créé un nouveau rôle" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Normalement on créé une nouvelle compétence" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/serveur/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/serveur" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/get-skill.test.ts" />
+      <test-names>
+        <test-name value="Normalement on créé une nouvelle compétence" />
+      </test-names>
+      <method v="2" />
+    </configuration>
     <configuration name="Normalement on créé une nouvelle mission" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <jest-package value="$PROJECT_DIR$/serveur/node_modules/jest" />
@@ -82,35 +120,37 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="Normalement on supprime un utilisateur" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="Normalement on supprime un rôle" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <jest-package value="$PROJECT_DIR$/serveur/node_modules/jest" />
       <working-dir value="$PROJECT_DIR$/serveur" />
       <envs />
       <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/delete-user.test.ts" />
+      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/delete-role.test.ts" />
       <test-names>
-        <test-name value="Normalement on supprime un utilisateur" />
+        <test-name value="Normalement on supprime un rôle" />
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="Normalement on supprime une mission" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="Normalement on supprime une compétence" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <jest-package value="$PROJECT_DIR$/serveur/node_modules/jest" />
       <working-dir value="$PROJECT_DIR$/serveur" />
       <envs />
       <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/delete-mission.test.ts" />
+      <test-file value="$PROJECT_DIR$/serveur/src/__tests__/delete-skill.test.ts" />
       <test-names>
-        <test-name value="Normalement on supprime une mission" />
+        <test-name value="Normalement on supprime une compétence" />
       </test-names>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Jest.Normalement on supprime une compétence" />
+        <item itemvalue="Jest.Normalement on créé une nouvelle compétence" />
+        <item itemvalue="Jest.Normalement on supprime un rôle" />
+        <item itemvalue="Jest.Normalement on créé un nouveau rôle" />
         <item itemvalue="Jest.Normalement on créé une nouvelle mission" />
-        <item itemvalue="Jest.Normalement on supprime une mission" />
-        <item itemvalue="Jest.Normalement on supprime un utilisateur" />
       </list>
     </recent_temporary>
   </component>
@@ -130,7 +170,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741248925378</updated>
-      <workItem from="1741248926526" duration="13712000" />
+      <workItem from="1741248926526" duration="16283000" />
     </task>
     <servers />
   </component>

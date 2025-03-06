@@ -1,5 +1,4 @@
 import {Context, createMockContext, MockContext} from "../context";
-import {Delete} from "@sinclair/typebox/value";
 
 interface DeleteMissionTest {
 	id: number
