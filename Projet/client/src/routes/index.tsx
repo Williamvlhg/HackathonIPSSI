@@ -1,4 +1,5 @@
 import { getEmployes } from '@/services/employe.service'
+import { getSites } from '@/services/chantier.service'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -10,12 +11,23 @@ import {
 } from '@/components/ui/table'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderSync, PersonStanding } from 'lucide-react'
+import { isWithinInterval } from 'date-fns'
+import { useQuery } from '@tanstack/react-query'
+
 export const Route = createFileRoute('/')({
   component: Index,
 })
 
 function Index() {
-  const { data } = getEmployes()
+  const { data: dataEmployes } = useQuery(['getEmployes'], getEmployes)
+  const { data: dataSites } = useQuery(['getSites'], getSites)
+  const currentDate = new Date()
+  const currentlyWorkingSites = dataSites?.data.filter((site) =>
+    isWithinInterval(currentDate, {
+      start: new Date(site.startDate),
+      end: new Date(site.endDate),
+    })
+  )
 
   return (
     <div className='space-y-8'>
@@ -27,7 +39,7 @@ function Index() {
               <FolderSync size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className='text-3xl'>{data?.data.length}</CardContent>
+          <CardContent className='text-3xl'>{dataEmployes?.data.length}</CardContent>
           <CardDescription className='px-6'>Nombre d'employés</CardDescription>
         </Card>
         <Card className='p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100'>
@@ -36,7 +48,7 @@ function Index() {
               <PersonStanding size={50} />
             </CardTitle>
           </CardHeader>
-          <CardContent className='text-3xl'>37</CardContent>
+          <CardContent className='text-3xl'>{currentlyWorkingSites?.length}</CardContent>
           <CardDescription className='px-6'>Nombre de chantiers (en cours)</CardDescription>
         </Card>
       </div>
@@ -56,13 +68,15 @@ function Index() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className='font-medium'>1</TableCell>
-                <TableCell>Nom</TableCell>
-                <TableCell>En cours</TableCell>
-                <TableCell>date</TableCell>
-                <TableCell>date</TableCell>
-              </TableRow>
+              {currentlyWorkingSites?.map((site, index) => (
+                <TableRow key={site.id}>
+                  <TableCell className='font-medium'>{index + 1}</TableCell>
+                  <TableCell>{site.name}</TableCell>
+                  <TableCell>En cours</TableCell>
+                  <TableCell>{new Date(site.startDate).toLocaleDateString()}</TableCell>
+                  <TableCell>{new Date(site.endDate).toLocaleDateString()}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </article>
@@ -70,3 +84,5 @@ function Index() {
     </div>
   )
 }
+
+export default Index

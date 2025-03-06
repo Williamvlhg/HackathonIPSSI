@@ -12,7 +12,7 @@ import { z } from 'zod'
  * @returns Site[]
  */
 export function getSites() {
-  const { data, isLoading, refetch } = useQuery<{ data: Array<Site> }>({
+  const { data, isLoading, refetch, error } = useQuery<{ data: Array<Site> }>({
     queryKey: ['site'],
     queryFn: async () => {
       const res = await fetch('http://localhost:8080/site/all')
@@ -20,7 +20,7 @@ export function getSites() {
     },
   })
 
-  return { data, isLoading, refetch }
+  return { data, isLoading, refetch, error }
 }
 
 /**

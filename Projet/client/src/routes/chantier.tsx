@@ -20,9 +20,11 @@ import { PersonStanding } from 'lucide-react';
 import AddSite from '@/features/chantiers/add/add-chantiers'
 import DeleteSite from '@/features/chantiers/delete-chantier'
 import UpdateSite from '@/features/chantiers/update/update-chantier'
-import { Site } from '@/types/site';
-import { useQuery } from '@tanstack/react-query';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { format, isWithinInterval } from 'date-fns';
+import { getSites } from '@/services/chantier.service';
+
+import { useCookies } from 'react-cookie'
 
 const queryClient = new QueryClient();
 
@@ -35,18 +37,15 @@ export const Route = createFileRoute("/chantier")({
 });
 
 function RouteComponent() {
-  const { data, error, isLoading } = useQuery<Site[]>({
-    queryKey: ['sites'],
-    queryFn: async () => {
-      const response = await fetch('http://localhost:8080/site/all');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const result = await response.json();
-      return result.data;
-    },
-  });
-  console.log(data);
+  const { data, isLoading, error } = getSites()
+  const [cookie] = useCookies(['user'])
+  const currentDate = new Date()
+  const currentlyWorkingSites = data?.data.filter(site =>
+    isWithinInterval(currentDate, {
+      start: new Date(site.startDate),
+      end: new Date(site.endDate),
+    })
+  )
   return (
     <>
       <div className="flex space-x-5 mt-5 w-full">
@@ -56,7 +55,7 @@ function RouteComponent() {
               <FolderSync size={50}/>
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-3xl">5</CardContent>
+          <CardContent className="text-3xl">{currentlyWorkingSites?.length}</CardContent>
           <CardDescription className="px-6">Nombre de chantier (en cours)</CardDescription>
         </Card>
         <Card className="p-5 space-y-2 w-75 transition-transform transform hover:scale-105 hover:bg-gray-100">
@@ -74,13 +73,15 @@ function RouteComponent() {
               <FolderClosed size={50}/>
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-3xl">67</CardContent>
+          <CardContent className="text-3xl">{data?.data.length}</CardContent>
           <CardDescription className="px-6">Nombre totale de chantier</CardDescription>
         </Card>
       </div>
-      <section className='flex gap-2 my-8 align-middle'>
-        <AddSite/>
-      </section>
+      {cookie.user.role.label !== 'worker' && (
+        <section className='flex gap-2 my-8 align-middle'>
+          <AddSite />
+        </section>
+      )}
 
       <div className="container mx-auto py-10">
       {isLoading ? (
@@ -102,13 +103,13 @@ function RouteComponent() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.map((site, key) => (
+              {data?.data.map((site, key) => (
                 <TableRow key={key}>
                   <TableCell className="font-medium">{site.id}</TableCell>
                   <TableCell>{site.name}</TableCell>
                   <TableCell>{site.address}</TableCell>
-                  <TableCell>{site.startDate}</TableCell>
-                  <TableCell>{site.endDate}</TableCell>     
+                  <TableCell>{format(site.startDate, 'dd/MM/yyyy')}</TableCell>
+                  <TableCell>{format(site.endDate, 'dd/MM/yyyy')}</TableCell>     
                   <TableCell>
                     {Array.isArray(site.skills) && site.skills.length > 0 ? (
                       <div className="flex flex-wrap gap-2">
@@ -125,10 +126,13 @@ function RouteComponent() {
                       <span className="text-gray-500 text-xs">Aucune compétence</span>
                     )}
                   </TableCell>
+                  {cookie.user.role.label !== 'worker' && (
                   <TableCell className="space-x-2">
                     <UpdateSite currentSite={site} />
                     <DeleteSite siteId={site.id} />
                   </TableCell>
+                  )}
+
                 </TableRow>
               ))}
             </TableBody>
