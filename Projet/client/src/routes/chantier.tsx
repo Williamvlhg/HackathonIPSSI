@@ -15,6 +15,7 @@ import { getSites } from '@/services/chantier.service'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderClosed, FolderSync, PersonStanding } from 'lucide-react'
+import { useCookies } from 'react-cookie'
 
 const queryClient = new QueryClient()
 
@@ -28,6 +29,7 @@ export const Route = createFileRoute('/chantier')({
 
 function RouteComponent() {
   const { data, isLoading, error } = getSites()
+  const [cookie] = useCookies(['user'])
 
   return (
     <>
@@ -60,9 +62,12 @@ function RouteComponent() {
           <CardDescription className='px-6'>Nombre totale de chantier</CardDescription>
         </Card>
       </div>
-      <section className='flex gap-2 my-8 align-middle'>
-        <AddSite />
-      </section>
+
+      {cookie.user.role.label !== 'worker' && (
+        <section className='flex gap-2 my-8 align-middle'>
+          <AddSite />
+        </section>
+      )}
 
       <div className='container mx-auto py-10'>
         {isLoading ? (
@@ -81,7 +86,7 @@ function RouteComponent() {
                   <TableHead>Date de fin</TableHead>
                   <TableHead>Compétences requises</TableHead>
                   <TableHead>Employés</TableHead>
-                  <TableHead>Actions</TableHead>
+                  {cookie.user.role.label !== 'worker' && <TableHead>Actions</TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -117,13 +122,16 @@ function RouteComponent() {
                         <span className='text-gray-500 text-xs'>Aucun travailleur</span>
                       )}
                     </TableCell>
-                    <TableCell className='space-x-2 flex items-center'>
-                      <a href={`/chantier/${site.id}`} className={buttonVariants()}>
-                        Détails
-                      </a>
-                      <UpdateSite currentSite={site} />
-                      <DeleteSite siteId={site.id} />
-                    </TableCell>
+
+                    {cookie.user.role.label !== 'worker' && (
+                      <TableCell className='space-x-2 flex items-center'>
+                        <a href={`/chantier/${site.id}`} className={buttonVariants()}>
+                          Détails
+                        </a>
+                        <UpdateSite currentSite={site} />
+                        <DeleteSite siteId={site.id} />
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

@@ -2,6 +2,7 @@
 
 import { updateProfileSchema } from '@/features/profile/update-profile.schema'
 import { useMutation } from '@tanstack/react-query'
+import bcrypt from 'bcryptjs'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -18,7 +19,11 @@ export function updateProfile() {
         headers: {
           'Content-type': 'application/json',
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          id: values.id,
+          email: values.email,
+          password: await bcrypt.hash(values.password, 10),
+        }),
       })
 
       return await res.json()
