@@ -65,6 +65,9 @@ npm run dev
 
 Client
 npm run dev
+
+Prisma studio (visualiser la bdd)
+npx prisma studio
 ```
 
 <br>
